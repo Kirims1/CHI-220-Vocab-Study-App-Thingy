@@ -13,3 +13,6 @@ React + Vite vocabulary study app for CHI 120 with:
 Updates:
 - Added dialogue and Short Reading Taken From Master List of Quizzes. Not sure if teacher pulls exactly from list but is still good to have
 - If you miss any questions on quiz, at the end you'll be able to practice/review those
+
+Update2:
+- Added so that after any of the quizes, it will show you the pinyin for all answers.
