@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, RotateCcw, Play, Volume2, Shuffle, ArrowLeft
 
 // --- Master Vocabulary Data ---
 const masterQuizList = {
-  "1": {
+      "1": {
     title: "Lesson 1",
     subtitle: "自我介绍 (Introductions)",
     dialogue: [
@@ -817,113 +817,6 @@ const masterQuizList = {
       { word: "注意", pinyin: "zhù yì", meaning: "to pay attention" }
     ], 
   },
-  "11": {
-    title: "Lesson 11",
-    subtitle: "农历新年 (Lunar New Year)",
-    vocab: [ 
-      { word: "传统", pinyin: "chuán tǒng", meaning: "traditional; tradition" },
-      { word: "节日", pinyin: "jié rì", meaning: "holiday" },
-      { word: "农历", pinyin: "nóng lì", meaning: "Lunar calendar" },
-      { word: "新年", pinyin: "xīn nián", meaning: "new year" },
-      { word: "恭喜发财", pinyin: "gōng xǐ fā cái", meaning: "Wishing you a prosperous new year" },
-      { word: "除夕", pinyin: "chú xī", meaning: "eve" },
-      { word: "回家", pinyin: "huí jiā", meaning: "to go home" },
-      { word: "包", pinyin: "bāo", meaning: "to wrap; bag" },
-      { word: "饺子", pinyin: "jiǎo zi", meaning: "Chinese dumplings" },
-      { word: "可", pinyin: "kě", meaning: "quite; very" },
-      { word: "春节", pinyin: "chūn jié", meaning: "Spring Festival; Chinese Lunar New Year" },
-      { word: "大年初一", pinyin: "dà nián chū yī", meaning: "First Day of Lunar New Year" },
-      { word: "顿", pinyin: "dùn", meaning: "measure of meals" },
-      { word: "团圆饭", pinyin: "tuán yuán fàn", meaning: "family reunion dinner" },
-      { word: "舞狮", pinyin: "wǔ shī", meaning: "lion dance" },
-      { word: "放", pinyin: "fàng", meaning: "to set off; to let go; to place" },
-      { word: "鞭炮", pinyin: "biān pào", meaning: "firecrackers" },
-      { word: "极", pinyin: "jí", meaning: "extremely" },
-      { word: "收到", pinyin: "shōu dào", meaning: "to receive" },
-      { word: "红包", pinyin: "hóng bāo", meaning: "red envelope" },
-      { word: "亲戚", pinyin: "qīn qi", meaning: "relative" },
-      { word: "一共", pinyin: "yī gòng", meaning: "altogether" },
-      { word: "块", pinyin: "kuài", meaning: "lump; measure word for ‘dollar’, ‘sugar/candy’" },
-      { word: "够", pinyin: "gòu", meaning: "enough" },
-      { word: "套", pinyin: "tào", meaning: "Measure word for ‘cloth’, ‘apartment’, and things that usually come in a set" },
-      { word: "打算", pinyin: "dǎ suàn", meaning: "to plan" },
-      { word: "压岁钱", pinyin: "yā suì qián", meaning: "lucky money" },
-      { word: "剩下", pinyin: "shèng xià", meaning: "leftover" },
-      { word: "存", pinyin: "cún", meaning: "to deposit" },
-      { word: "银行", pinyin: "yín háng", meaning: "bank" },
-      { word: "倒是", pinyin: "dào shì", meaning: "ironically; unexpectedly" },
-      { word: "省钱", pinyin: "shěng qián", meaning: "to save money" },
-      { word: "头款", pinyin: "tóu kuǎn", meaning: "first installment (of money)" },
-      { word: "公司", pinyin: "gōng sī", meaning: "company" },
-      { word: "祝", pinyin: "zhù", meaning: "to wish" },
-      { word: "快乐", pinyin: "kuài lè", meaning: "happy" },
-      { word: "心想事成", pinyin: "xīn xiǎng shì chéng", meaning: "All your wishes come true" },
-      { word: "万事如意", pinyin: "wàn shì rú yì", meaning: "Everything goes your way" },
-      { word: "前", pinyin: "qián", meaning: "former; prior; front" },
-      { word: "星期", pinyin: "xīng qī", meaning: "week" },
-      { word: "人们", pinyin: "rén men", meaning: "people" },
-      { word: "打扫", pinyin: "dǎ sǎo", meaning: "to sweep and dust" },
-      { word: "房间", pinyin: "fáng jiān", meaning: "room" },
-      { word: "张灯结彩", pinyin: "zhāng dēng jié cǎi", meaning: "to decorate with lanterns and paper cuts" },
-      { word: "购买", pinyin: "gòu mǎi", meaning: "to purchase" },
-      { word: "年货", pinyin: "nián huò", meaning: "goods for new year" },
-      { word: "过年", pinyin: "guò nián", meaning: "to celebrate new year" },
-      { word: "外出", pinyin: "wài chū", meaning: "to travel outside" },
-      { word: "家人", pinyin: "jiā rén", meaning: "family member" },
-      { word: "赶", pinyin: "gǎn", meaning: "to rush" },
-      { word: "守夜", pinyin: "shǒu yè", meaning: "to stay up all night" },
-      { word: "拜年", pinyin: "bài nián", meaning: "to wish happy new year" },
-      { word: "分", pinyin: "fēn", meaning: "to distribute; to share" },
-      { word: "十分", pinyin: "shí fēn", meaning: "rather; quite" }
-    ],
-  },
-  "12": {
-    title: "Lesson 12",
-    subtitle: "中秋节 (Mid-Autumn Festival)",
-    vocab: [
-      { word: "中秋节", pinyin: "zhōng qiū jié", meaning: "Mid-Autumn Festival" },
-      { word: "功课", pinyin: "gōng kè", meaning: "homework; schoolwork" },
-      { word: "可能", pinyin: "kě néng", meaning: "perhaps; possible" },
-      { word: "次", pinyin: "cì", meaning: "measure word for ‘time’" },
-      { word: "然后", pinyin: "rán hòu", meaning: "afterward; then" },
-      { word: "院子", pinyin: "yuàn zi", meaning: "yard" },
-      { word: "赏月", pinyin: "shǎng yuè", meaning: "to admire the moon" },
-      { word: "少不了", pinyin: "shǎo bu liǎo", meaning: "cannot do without" },
-      { word: "月饼", pinyin: "yuè bǐng", meaning: "moon cake" },
-      { word: "甜", pinyin: "tián", meaning: "sweet" },
-      { word: "蛋糕", pinyin: "dàn gāo", meaning: "cake" },
-      { word: "没意思", pinyin: "méi yì si", meaning: "boring; bored" },
-      { word: "举办", pinyin: "jǔ bàn", meaning: "to hold (an event)" },
-      { word: "晚会", pinyin: "wǎn huì", meaning: "party; evening gala" },
-      { word: "跳舞", pinyin: "tiào wǔ", meaning: "to dance" },
-      { word: "可是", pinyin: "kě shì", meaning: "but" },
-      { word: "俗话", pinyin: "sú huà", meaning: "old saying; proverb" },
-      { word: "每逢佳节倍思亲", pinyin: "měi féng jiā jié bèi sī qīn", meaning: "one is especially homesick on holidays" },
-      { word: "难道", pinyin: "nán dào", meaning: "could it be true that (rhetorical)..." },
-      { word: "等", pinyin: "děng", meaning: "to wait" },
-      { word: "一阵子", pinyin: "yī zhèn zi", meaning: "a while" },
-      { word: "愉快", pinyin: "yú kuài", meaning: "pleasant; pleased" },
-      { word: "月", pinyin: "yuè", meaning: "moon; month" },
-      { word: "之一", pinyin: "zhī yī", meaning: "one of" },
-      { word: "关于", pinyin: "guān yú", meaning: "about; regarding" },
-      { word: "许多", pinyin: "xǔ duō", meaning: "many" },
-      { word: "传说", pinyin: "chuán shuō", meaning: "legend" },
-      { word: "月亮", pinyin: "yuè liang", meaning: "moon" },
-      { word: "因为", pinyin: "yīn wèi", meaning: "because" },
-      { word: "满月", pinyin: "mǎn yuè", meaning: "full moon" },
-      { word: "圆", pinyin: "yuán", meaning: "round; circle" },
-      { word: "亮", pinyin: "liàng", meaning: "bright" },
-      { word: "所以", pinyin: "suǒ yǐ", meaning: "so; therefore" },
-      { word: "晚上", pinyin: "wǎn shang", meaning: "evening; night" },
-      { word: "出来", pinyin: "chū lái", meaning: "to come out" },
-      { word: "庆祝", pinyin: "qìng zhù", meaning: "to celebrate" },
-      { word: "祈求", pinyin: "qí qiú", meaning: "to pray for" },
-      { word: "美满", pinyin: "měi mǎn", meaning: "perfect; happy" },
-      { word: "幸福", pinyin: "xìng fú", meaning: "happy; blessed" },
-      { word: "觉得", pinyin: "jué de", meaning: "to feel; to think" },
-      { word: "有趣", pinyin: "yǒu qù", meaning: "interesting" }
-    ],
-  },
 };
 
 // --- Standard Audio Helper ---
@@ -1200,7 +1093,7 @@ export default function App() {
               <GraduationCap size={40} className="text-indigo-600" />
             </div>
             <h1 className="text-4xl font-extrabold text-slate-800 tracking-tight">CHI 120 Study App</h1>
-            <p className="text-slate-500 font-medium mt-2"> Chinese Interactive Flashcards & Quizze</p>
+            <p className="text-slate-500 font-medium mt-2">Chinese Interactive Flashcards & Quizes</p>
           </div>
 
           <div className="mb-6">
@@ -1272,7 +1165,7 @@ export default function App() {
               <label className="flex items-center cursor-pointer group">
                 <input type="checkbox" className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 mr-3 border-slate-300"
                   checked={quizAudioEnabled} onChange={(e) => setQuizAudioEnabled(e.target.checked)} />
-                <span className="text-sm font-medium text-slate-600 group-hover:text-slate-900 transition-colors">Auto-play audio On Correct Answer</span>
+                <span className="text-sm font-medium text-slate-600 group-hover:text-slate-900 transition-colors">Auto-play audio on correct answer</span>
               </label>
               <label className="flex items-center cursor-pointer group">
                 <input type="checkbox" className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 mr-3 border-slate-300"
@@ -1282,7 +1175,7 @@ export default function App() {
               <label className="flex items-center cursor-pointer group">
                 <input type="checkbox" className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 mr-3 border-slate-300"
                   checked={showPinyinInReverseQuiz} onChange={(e) => setShowPinyinInReverseQuiz(e.target.checked)} />
-                <span className="text-sm font-medium text-slate-600 group-hover:text-slate-900 transition-colors">Show Pinyin in Reverse Quiz</span>
+                <span className="text-sm font-medium text-slate-600 group-hover:text-slate-900 transition-colors">Show Pinyin Options in Reverse Quiz</span>
               </label>
             </div>
           </div>
@@ -1458,8 +1351,8 @@ export default function App() {
               <p className="text-slate-400 text-xs font-bold uppercase tracking-widest absolute top-6">What does this mean?</p>
               <div className="flex flex-col items-center mt-4 w-full">
                 <h2 className="text-6xl font-extrabold text-slate-800 text-center mb-2 tracking-widest">{currentQ.card.word}</h2>
-                {showPinyinInStrokeQuiz && <p className="text-2xl font-bold text-indigo-600 mb-4">{currentQ.card.pinyin}</p>}
-                <div className={`scale-100 sm:scale-110 ${!showPinyinInStrokeQuiz ? 'mt-4' : ''}`}>
+                {(showPinyinInStrokeQuiz || currentAnswer) && <p className="text-2xl font-bold text-indigo-600 mb-4">{currentQ.card.pinyin}</p>}
+                <div className={`scale-100 sm:scale-110 ${!(showPinyinInStrokeQuiz || currentAnswer) ? 'mt-4' : ''}`}>
                    <StrokeOrderAnimator key={`std-${currentQ.card.word}`} word={currentQ.card.word} showOutline={true} autoPlay={true} hideAnimateButton={false} />
                 </div>
               </div>
@@ -1503,10 +1396,15 @@ export default function App() {
                 {isReverse && (
                   <div className="flex flex-col">
                     <span className="text-3xl font-bold mb-1">{option.word}</span>
-                    {showPinyinInReverseQuiz && <span className="text-sm font-medium opacity-80">{option.pinyin}</span>}
+                    {(showPinyinInReverseQuiz || currentAnswer) && <span className="text-sm font-medium opacity-80">{option.pinyin}</span>}
                   </div>
                 )}
-                {isHanziMatch && <div className="flex w-full justify-center"><span className="text-4xl font-bold tracking-widest">{option.word}</span></div>}
+                {isHanziMatch && (
+                  <div className="flex flex-col w-full justify-center items-center">
+                    <span className="text-4xl font-bold tracking-widest">{option.word}</span>
+                    {currentAnswer && <span className="text-sm font-medium opacity-80 mt-1">{option.pinyin}</span>}
+                  </div>
+                )}
                 {isStrokeQuiz && <span className="text-xl font-bold">{option.meaning}</span>}
                 {icon}
               </button>
