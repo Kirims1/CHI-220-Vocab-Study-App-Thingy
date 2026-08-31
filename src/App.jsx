@@ -922,7 +922,7 @@ const StrokeOrderAnimator = ({ word, showOutline = true, autoPlay = false, hideA
 // showOutline just controls whether the faint reference character is visible while
 // drawing. With it off, checking is still fully automatic; it's just done from memory.
 // Handles multi-character words by stepping through each character in sequence.
-const DrawQuizAnimator = ({ word, onFinish, showOutline = true, hintAfterMisses = 3 }) => {
+const DrawQuizAnimator = ({ word, onFinish, showOutline = true, hintAfterMisses = 3, allowReveal = true }) => {
   const containerRef = useRef(null);
   const writerRef = useRef(null);
   const finishedRef = useRef(false);
@@ -1035,7 +1035,7 @@ const DrawQuizAnimator = ({ word, onFinish, showOutline = true, hintAfterMisses 
             {mistakes} miss{mistakes !== 1 ? 'es' : ''}
           </span>
         )}
-        {!charDone && (
+        {allowReveal && !charDone && (
           <button
             onClick={handleReveal}
             className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-rose-500 transition-colors uppercase tracking-wide"
@@ -1044,6 +1044,203 @@ const DrawQuizAnimator = ({ word, onFinish, showOutline = true, hintAfterMisses 
           </button>
         )}
       </div>
+    </div>
+  );
+};
+
+// Free draw canvas for memory-only drawing. It intentionally does not start HanziWriter's
+// stroke-by-stroke quiz, so clicking/drawing in the box never previews the expected stroke
+// order. The user's full character is checked only after they press Submit.
+const FreeDrawAnimator = ({ word, onFinish }) => {
+  const canvasRef = useRef(null);
+  const targetCanvasRef = useRef(null);
+  const drawingRef = useRef(false);
+  const lastPointRef = useRef(null);
+  const [hasInk, setHasInk] = useState(false);
+  const [isChecking, setIsChecking] = useState(false);
+  const boxSize = 220;
+
+  const setupCanvas = useCallback((canvas) => {
+    if (!canvas) return null;
+    const ratio = window.devicePixelRatio || 1;
+    canvas.width = boxSize * ratio;
+    canvas.height = boxSize * ratio;
+    canvas.style.width = `${boxSize}px`;
+    canvas.style.height = `${boxSize}px`;
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 16;
+    ctx.strokeStyle = '#4338ca';
+    return ctx;
+  }, []);
+
+  useEffect(() => {
+    const ctx = setupCanvas(canvasRef.current);
+    if (ctx) ctx.clearRect(0, 0, boxSize, boxSize);
+    setHasInk(false);
+  }, [setupCanvas, word]);
+
+  useEffect(() => {
+    let isMounted = true;
+    let hiddenHost;
+
+    loadHanziWriter().then(HanziWriter => {
+      if (!isMounted) return;
+      hiddenHost = document.createElement('div');
+      hiddenHost.style.position = 'fixed';
+      hiddenHost.style.left = '-9999px';
+      hiddenHost.style.top = '-9999px';
+      hiddenHost.style.width = `${boxSize}px`;
+      hiddenHost.style.height = `${boxSize}px`;
+      document.body.appendChild(hiddenHost);
+
+      try {
+        HanziWriter.create(hiddenHost, word[0], {
+          width: boxSize,
+          height: boxSize,
+          padding: 10,
+          showOutline: false,
+          showCharacter: true,
+          strokeColor: '#000000',
+        });
+
+        requestAnimationFrame(() => {
+          const svg = hiddenHost.querySelector('svg');
+          const targetCanvas = targetCanvasRef.current;
+          if (!isMounted || !svg || !targetCanvas) return;
+          const ratio = window.devicePixelRatio || 1;
+          targetCanvas.width = boxSize * ratio;
+          targetCanvas.height = boxSize * ratio;
+          const targetCtx = targetCanvas.getContext('2d', { willReadFrequently: true });
+          targetCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
+          targetCtx.clearRect(0, 0, boxSize, boxSize);
+
+          const svgText = new XMLSerializer().serializeToString(svg);
+          const img = new Image();
+          const url = URL.createObjectURL(new Blob([svgText], { type: 'image/svg+xml' }));
+          img.onload = () => {
+            targetCtx.drawImage(img, 0, 0, boxSize, boxSize);
+            URL.revokeObjectURL(url);
+          };
+          img.src = url;
+        });
+      } catch (err) {
+        // If target data is unavailable, submission will fall back to accepting a real attempt.
+      }
+    });
+
+    return () => {
+      isMounted = false;
+      if (hiddenHost?.parentNode) hiddenHost.parentNode.removeChild(hiddenHost);
+    };
+  }, [word]);
+
+  const getPoint = (e) => {
+    const rect = canvasRef.current.getBoundingClientRect();
+    const pointer = e.touches?.[0] || e;
+    return { x: pointer.clientX - rect.left, y: pointer.clientY - rect.top };
+  };
+
+  const startDrawing = (e) => {
+    e.preventDefault();
+    drawingRef.current = true;
+    lastPointRef.current = getPoint(e);
+  };
+
+  const draw = (e) => {
+    if (!drawingRef.current) return;
+    e.preventDefault();
+    const ctx = canvasRef.current.getContext('2d');
+    const point = getPoint(e);
+    const last = lastPointRef.current || point;
+    ctx.beginPath();
+    ctx.moveTo(last.x, last.y);
+    ctx.lineTo(point.x, point.y);
+    ctx.stroke();
+    lastPointRef.current = point;
+    setHasInk(true);
+  };
+
+  const stopDrawing = () => {
+    drawingRef.current = false;
+    lastPointRef.current = null;
+  };
+
+  const clearDrawing = () => {
+    const ctx = setupCanvas(canvasRef.current);
+    if (ctx) ctx.clearRect(0, 0, boxSize, boxSize);
+    setHasInk(false);
+  };
+
+  const scoreDrawing = () => {
+    const userCtx = canvasRef.current.getContext('2d', { willReadFrequently: true });
+    const targetCtx = targetCanvasRef.current?.getContext('2d', { willReadFrequently: true });
+    if (!targetCtx) return { score: hasInk ? 0.5 : 0, accepted: hasInk };
+
+    const user = userCtx.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height).data;
+    const target = targetCtx.getImageData(0, 0, targetCanvasRef.current.width, targetCanvasRef.current.height).data;
+    let userPixels = 0;
+    let targetPixels = 0;
+    let overlap = 0;
+
+    for (let i = 3; i < user.length; i += 4) {
+      const hasUser = user[i] > 20;
+      const hasTarget = target[i] > 20;
+      if (hasUser) userPixels += 1;
+      if (hasTarget) targetPixels += 1;
+      if (hasUser && hasTarget) overlap += 1;
+    }
+
+    if (userPixels < 150 || targetPixels === 0) return { score: 0, accepted: false };
+    const coverage = overlap / targetPixels;
+    const precision = overlap / userPixels;
+    const score = Math.round(((coverage * 0.65) + (precision * 0.35)) * 100);
+    return { score, accepted: coverage >= 0.22 && precision >= 0.18 };
+  };
+
+  const submitDrawing = () => {
+    if (!hasInk || isChecking) return;
+    setIsChecking(true);
+    const { score, accepted } = scoreDrawing();
+    onFinish && onFinish({ mistakes: accepted ? 0 : 1, revealed: false, score, accepted, isFreeDraw: true });
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <div className="relative rounded-2xl border-2 border-slate-100 shadow-sm bg-white overflow-hidden" style={{ width: boxSize, height: boxSize }}>
+        <svg className="absolute inset-0 pointer-events-none" width={boxSize} height={boxSize}>
+          <line x1={boxSize / 2} y1="0" x2={boxSize / 2} y2={boxSize} stroke="#eef2f7" strokeWidth="1.5" />
+          <line x1="0" y1={boxSize / 2} x2={boxSize} y2={boxSize / 2} stroke="#eef2f7" strokeWidth="1.5" />
+          <line x1="0" y1="0" x2={boxSize} y2={boxSize} stroke="#f1f5f9" strokeWidth="1" strokeDasharray="4 4" />
+          <line x1={boxSize} y1="0" x2="0" y2={boxSize} stroke="#f1f5f9" strokeWidth="1" strokeDasharray="4 4" />
+        </svg>
+        <canvas
+          ref={canvasRef}
+          className="relative cursor-crosshair"
+          style={{ touchAction: 'none' }}
+          onMouseDown={startDrawing}
+          onMouseMove={draw}
+          onMouseUp={stopDrawing}
+          onMouseLeave={stopDrawing}
+          onTouchStart={startDrawing}
+          onTouchMove={draw}
+          onTouchEnd={stopDrawing}
+        />
+      </div>
+      <canvas ref={targetCanvasRef} className="hidden" aria-hidden="true" />
+      <div className="flex items-center gap-3">
+        <button onClick={clearDrawing} className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 rounded-full transition-colors uppercase tracking-wide">
+          <Eraser size={14} /> Clear
+        </button>
+        <button disabled={!hasInk || isChecking} onClick={submitDrawing} className="flex items-center gap-1.5 px-5 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 disabled:hover:bg-indigo-600 rounded-full transition-colors uppercase tracking-wide">
+          <CheckCircle2 size={14} /> Submit Drawing
+        </button>
+      </div>
+      <p className="text-xs text-slate-400 font-medium text-center max-w-xs">
+        Draw the full character from memory, then submit when you are ready. No stroke hints are shown while you draw.
+      </p>
     </div>
   );
 };
@@ -1209,12 +1406,13 @@ export default function App() {
     }
   };
 
-  const handleDrawFinish = ({ mistakes, revealed }) => {
+  const handleDrawFinish = ({ mistakes, revealed, score, accepted, isFreeDraw }) => {
+    const isCorrect = isFreeDraw ? accepted : !revealed;
     setQuizAnswers(prev => {
       if (prev[currentIndex]) return prev; // already recorded, avoid double-count
-      return { ...prev, [currentIndex]: { isCorrect: !revealed, mistakes, isDraw: true } };
+      return { ...prev, [currentIndex]: { isCorrect, mistakes, score, isDraw: true, isFreeDraw } };
     });
-    if (!revealed && quizAudioEnabled) {
+    if (isCorrect && quizAudioEnabled) {
       playBrowserAudio(quizQuestions[currentIndex].card.word);
     }
   };
@@ -1560,8 +1758,9 @@ export default function App() {
                   <div className="flex flex-col items-center animate-fade-in">
                     <div className={`flex items-center gap-2 mb-4 px-4 py-2 rounded-full text-sm font-bold ${currentAnswer.isCorrect ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}`}>
                       {currentAnswer.isCorrect ? <CheckCircle2 size={18} /> : <XCircle size={18} />}
-                      {currentAnswer.isCorrect ? 'Nicely drawn!' : 'Revealed answer'}
-                      {currentAnswer.mistakes > 0 && ` · ${currentAnswer.mistakes} miss${currentAnswer.mistakes !== 1 ? 'es' : ''}`}
+                      {currentAnswer.isCorrect ? 'Nicely drawn!' : (currentAnswer.isFreeDraw ? 'Try this one again' : 'Revealed answer')}
+                      {typeof currentAnswer.score === 'number' && ` · ${currentAnswer.score}% match`}
+                      {currentAnswer.mistakes > 0 && !currentAnswer.isFreeDraw && ` · ${currentAnswer.mistakes} miss${currentAnswer.mistakes !== 1 ? 'es' : ''}`}
                     </div>
                     <h2 className="text-6xl font-extrabold text-slate-800 mb-2 tracking-widest">{currentQ.card.word}</h2>
                     <p className="text-xl font-bold text-indigo-600 mb-1">{currentQ.card.pinyin}</p>
@@ -1581,19 +1780,18 @@ export default function App() {
                 </p>
 
                 {!currentAnswer ? (
-                  <DrawQuizAnimator
+                  <FreeDrawAnimator
                     key={`freedraw-${currentIndex}-${currentQ.card.word}`}
                     word={currentQ.card.word}
                     onFinish={handleDrawFinish}
-                    showOutline={false}
-                    hintAfterMisses={4}
                   />
                 ) : (
                   <div className="flex flex-col items-center animate-fade-in">
                     <div className={`flex items-center gap-2 mb-4 px-4 py-2 rounded-full text-sm font-bold ${currentAnswer.isCorrect ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}`}>
                       {currentAnswer.isCorrect ? <CheckCircle2 size={18} /> : <XCircle size={18} />}
-                      {currentAnswer.isCorrect ? 'Nicely drawn!' : 'Revealed answer'}
-                      {currentAnswer.mistakes > 0 && ` · ${currentAnswer.mistakes} miss${currentAnswer.mistakes !== 1 ? 'es' : ''}`}
+                      {currentAnswer.isCorrect ? 'Nicely drawn!' : (currentAnswer.isFreeDraw ? 'Try this one again' : 'Revealed answer')}
+                      {typeof currentAnswer.score === 'number' && ` · ${currentAnswer.score}% match`}
+                      {currentAnswer.mistakes > 0 && !currentAnswer.isFreeDraw && ` · ${currentAnswer.mistakes} miss${currentAnswer.mistakes !== 1 ? 'es' : ''}`}
                     </div>
                     <h2 className="text-6xl font-extrabold text-slate-800 mb-2 tracking-widest">{currentQ.card.word}</h2>
                     <p className="text-xl font-bold text-indigo-600 mb-1">{currentQ.card.pinyin}</p>
@@ -1663,7 +1861,7 @@ export default function App() {
           <div className="w-full flex justify-center mb-6 px-4">
             <p className="text-xs text-slate-400 font-medium">
               {isFreeDraw
-                ? 'Draw from memory — no outline to trace, but strokes are still checked automatically as you go.'
+                ? 'Draw from memory — no outline, stroke animation, or auto-checking appears until you press Submit.'
                 : 'Draw with your mouse or finger — strokes are checked as you go.'}
             </p>
           </div>
