@@ -1141,7 +1141,7 @@ export default function App() {
                <p className="text-sm text-slate-500">Mix the lesson vocabulary with the quiz list that combines dialogue and short-reading terms.</p>
              </div>
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <label className={`group flex items-start cursor-pointer p-5 rounded-2xl border-2 transition-all duration-200 hover:-translate-y-0.5 ${studyVocabulary ? 'border-indigo-500 bg-gradient-to-br from-indigo-50 to-violet-100 shadow-md shadow-indigo-100' : 'border-slate-200 bg-white hover:border-indigo-200 hover:bg-indigo-50/50'}`}>
+                <label className={`group flex items-start cursor-pointer p-5 rounded-2xl border-2 transition-all ${studyVocabulary ? 'border-indigo-500 bg-indigo-50 shadow-sm' : 'border-slate-200 bg-white hover:border-indigo-200 hover:bg-slate-50'}`}>
                   <input
                     type="checkbox"
                     className="mt-1 w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 mr-4"
@@ -1149,11 +1149,11 @@ export default function App() {
                     onChange={(e) => setStudyVocabulary(e.target.checked)}
                   />
                   <div>
-                    <span className="font-bold text-indigo-950 block">Vocabulary</span>
+                    <span className="font-bold text-slate-800 block">Vocabulary</span>
                     <span className="text-sm text-slate-500 mt-1 block">Core words and definitions from each selected lesson.</span>
                   </div>
                 </label>
-                <label className={`group flex items-start cursor-pointer p-5 rounded-2xl border-2 transition-all duration-200 hover:-translate-y-0.5 ${studyQuizList ? 'border-emerald-500 bg-gradient-to-br from-emerald-50 to-teal-100 shadow-md shadow-emerald-100' : 'border-slate-200 bg-white hover:border-emerald-200 hover:bg-emerald-50/50'}`}>
+                <label className={`group flex items-start cursor-pointer p-5 rounded-2xl border-2 transition-all ${studyQuizList ? 'border-emerald-500 bg-emerald-50 shadow-sm' : 'border-slate-200 bg-white hover:border-emerald-200 hover:bg-slate-50'}`}>
                   <input
                     type="checkbox"
                     className="mt-1 w-5 h-5 text-emerald-600 rounded focus:ring-emerald-500 mr-4"
@@ -1161,7 +1161,7 @@ export default function App() {
                     onChange={(e) => setStudyQuizList(e.target.checked)}
                   />
                   <div>
-                    <span className="font-bold text-emerald-950 block">Quiz List</span>
+                    <span className="font-bold text-slate-800 block">Quiz List</span>
                     <span className="text-sm text-slate-500 mt-1 block">Dialogue and short-reading terms prepared for review.</span>
                   </div>
                 </label>
