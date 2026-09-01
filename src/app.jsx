@@ -1081,6 +1081,15 @@ export default function App() {
 
   // --- Render Functions ---
   const renderMenu = () => {
+    const unitThemes = [
+      'border-violet-500 bg-violet-50 shadow-violet-200/70',
+      'border-sky-500 bg-sky-50 shadow-sky-200/70',
+      'border-emerald-500 bg-emerald-50 shadow-emerald-200/70',
+      'border-amber-500 bg-amber-50 shadow-amber-200/70',
+      'border-rose-500 bg-rose-50 shadow-rose-200/70',
+      'border-cyan-500 bg-cyan-50 shadow-cyan-200/70',
+    ];
+
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center w-full relative">
         <div className="bg-white p-8 md:p-10 rounded-3xl shadow-2xl ring-1 ring-slate-900/5 max-w-4xl w-full border-t-4 border-indigo-500">
@@ -1095,27 +1104,34 @@ export default function App() {
           <div className="mb-6">
             <h3 className="font-bold text-slate-700 mb-4 uppercase tracking-wider text-sm">1. Select Unit(s)</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-left">
-              {Object.entries(masterQuizList).map(([unitKey, data]) => (
-                <label 
-                  key={unitKey} 
-                  className={`flex items-center p-3 border-2 rounded-xl cursor-pointer transition-all hover:-translate-y-0.5 ${
-                    selectedUnits.includes(unitKey) 
-                    ? 'border-indigo-500 bg-indigo-50 shadow-sm' 
-                    : 'border-slate-200 hover:bg-slate-50 hover:shadow-sm'
-                  }`}
-                >
-                  <input 
-                    type="checkbox" 
-                    className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 mr-3"
-                    checked={selectedUnits.includes(unitKey)}
-                    onChange={() => toggleUnit(unitKey)}
-                  />
-                  <div>
-                    <p className="font-bold text-slate-800">{data.title}</p>
-                    <p className="text-xs text-slate-500 font-medium">{data.subtitle}</p>
-                  </div>
-                </label>
-              ))}
+              {Object.entries(masterQuizList).map(([unitKey, data], index) => {
+                const isSelected = selectedUnits.includes(unitKey);
+                return (
+                  <label
+                    key={unitKey}
+                    className={`relative flex items-center p-4 border-2 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${
+                      isSelected
+                        ? `${unitThemes[index % unitThemes.length]} shadow-md`
+                        : 'border-slate-200 bg-white hover:bg-slate-50 hover:shadow-sm'
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      className="sr-only"
+                      checked={isSelected}
+                      onChange={() => toggleUnit(unitKey)}
+                    />
+                    <span className={`mr-3 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${isSelected ? 'border-current bg-white text-slate-700' : 'border-slate-300 bg-white text-transparent'}`}>
+                      <CheckCircle2 size={16} strokeWidth={3} />
+                    </span>
+                    <div>
+                      <p className="font-bold text-slate-800">{data.title}</p>
+                      <p className="text-xs text-slate-500 font-medium">{data.subtitle}</p>
+                    </div>
+                    {isSelected && <span className="absolute right-3 top-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-500">Selected</span>}
+                  </label>
+                );
+              })}
             </div>
           </div>
 
