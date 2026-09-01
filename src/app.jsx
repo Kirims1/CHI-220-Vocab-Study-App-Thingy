@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, RotateCcw, Play, Volume2, Shuffle, ArrowLeft, CheckCircle2, XCircle, BookOpen, GraduationCap, Languages, Settings, Type, PenTool, Eye, Eraser, Pencil } from 'lucide-react';
+import { ChevronLeft, ChevronRight, RotateCcw, Play, Volume2, Shuffle, ArrowLeft, CheckCircle2, XCircle, BookOpen, GraduationCap, Languages, Settings, Type } from 'lucide-react';
 
 // --- Master Vocabulary Data ---
 const masterQuizList = {
@@ -917,343 +917,14 @@ const StrokeOrderAnimator = ({ word, showOutline = true, autoPlay = false, hideA
   );
 };
 
-// Interactive "draw the character" quiz box, powered by HanziWriter's built-in quiz mode.
-// HanziWriter checks every stroke against the real character data automatically -
-// showOutline just controls whether the faint reference character is visible while
-// drawing. With it off, checking is still fully automatic; it's just done from memory.
-// Handles multi-character words by stepping through each character in sequence.
-const DrawQuizAnimator = ({ word, onFinish, showOutline = true, hintAfterMisses = 3, allowReveal = true }) => {
-  const containerRef = useRef(null);
-  const writerRef = useRef(null);
-  const finishedRef = useRef(false);
-  const mistakesRef = useRef(0);
-  const chars = useRef(word.split('')).current;
-  const boxSize = 220;
-
-  const [charIndex, setCharIndex] = useState(0);
-  const [mistakes, setMistakes] = useState(0);
-  const [charDone, setCharDone] = useState(false);
-
-  const advance = useCallback((revealed) => {
-    setTimeout(() => {
-      if (charIndex + 1 < chars.length) {
-        setCharIndex(i => i + 1);
-      } else if (!finishedRef.current) {
-        finishedRef.current = true;
-        onFinish && onFinish({ mistakes: mistakesRef.current, revealed });
-      }
-    }, revealed ? 900 : 650);
-  }, [charIndex, chars.length, onFinish]);
-
-  useEffect(() => {
-    let isMounted = true;
-    setCharDone(false);
-
-    loadHanziWriter().then(HanziWriter => {
-      if (!isMounted || !containerRef.current) return;
-      containerRef.current.innerHTML = '';
-
-      let writer;
-      try {
-        writer = HanziWriter.create(containerRef.current, chars[charIndex], {
-          width: boxSize,
-          height: boxSize,
-          padding: 10,
-          showOutline,
-          showHintAfterMisses: hintAfterMisses,
-          strokeColor: '#4f46e5',
-          outlineColor: '#e2e8f0',
-          drawingColor: '#4338ca',
-          highlightOnComplete: true,
-        });
-      } catch (err) {
-        // Fallback for characters HanziWriter can't quiz (e.g. punctuation)
-        containerRef.current.innerHTML = `<span style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:${boxSize * 0.5}px;color:#4f46e5;font-weight:700;">${chars[charIndex]}</span>`;
-        setCharDone(true);
-        advance(false);
-        return;
-      }
-      writerRef.current = writer;
-
-      writer.quiz({
-        onMistake: () => { mistakesRef.current += 1; setMistakes(mistakesRef.current); },
-        onComplete: () => {
-          if (!isMounted) return;
-          setCharDone(true);
-          advance(false);
-        }
-      });
-    });
-
-    return () => {
-      isMounted = false;
-      if (writerRef.current?.cancelQuiz) writerRef.current.cancelQuiz();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [charIndex]);
-
-  const handleReveal = () => {
-    if (!writerRef.current || finishedRef.current || charDone) return;
-    if (writerRef.current.cancelQuiz) writerRef.current.cancelQuiz();
-    writerRef.current.showOutline();
-    writerRef.current.animateCharacter({
-      onComplete: () => {
-        setCharDone(true);
-        advance(true);
-      }
-    });
-  };
-
-  return (
-    <div className="flex flex-col items-center gap-4">
-      {chars.length > 1 && (
-        <div className="flex gap-1.5">
-          {chars.map((_, i) => (
-            <div key={i} className={`h-2 rounded-full transition-all duration-300 ${i < charIndex ? 'w-6 bg-emerald-500' : i === charIndex ? 'w-6 bg-indigo-500' : 'w-2 bg-slate-200'}`} />
-          ))}
-        </div>
-      )}
-      <div
-        className="relative rounded-2xl border-2 border-slate-100 shadow-sm bg-white overflow-hidden"
-        style={{ width: boxSize, height: boxSize }}
-      >
-        {/* Light "rice grid" (米字格) guide, standard on Chinese practice paper - most
-            useful when there's no outline to anchor the character's proportions. */}
-        {!showOutline && (
-          <svg className="absolute inset-0 pointer-events-none" width={boxSize} height={boxSize}>
-            <line x1={boxSize / 2} y1="0" x2={boxSize / 2} y2={boxSize} stroke="#eef2f7" strokeWidth="1.5" />
-            <line x1="0" y1={boxSize / 2} x2={boxSize} y2={boxSize / 2} stroke="#eef2f7" strokeWidth="1.5" />
-            <line x1="0" y1="0" x2={boxSize} y2={boxSize} stroke="#f1f5f9" strokeWidth="1" strokeDasharray="4 4" />
-            <line x1={boxSize} y1="0" x2="0" y2={boxSize} stroke="#f1f5f9" strokeWidth="1" strokeDasharray="4 4" />
-          </svg>
-        )}
-        <div ref={containerRef} className="relative" style={{ width: boxSize, height: boxSize, touchAction: 'none' }} />
-      </div>
-      <div className="flex items-center gap-4 min-h-[20px]">
-        {mistakes > 0 && (
-          <span className="text-xs font-bold text-amber-500 uppercase tracking-wide">
-            {mistakes} miss{mistakes !== 1 ? 'es' : ''}
-          </span>
-        )}
-        {allowReveal && !charDone && (
-          <button
-            onClick={handleReveal}
-            className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-rose-500 transition-colors uppercase tracking-wide"
-          >
-            <Eye size={14} /> Show me
-          </button>
-        )}
-      </div>
-    </div>
-  );
-};
-
-// Free draw canvas for memory-only drawing. It intentionally does not start HanziWriter's
-// stroke-by-stroke quiz, so clicking/drawing in the box never previews the expected stroke
-// order. The user's full character is checked only after they press Submit.
-const FreeDrawAnimator = ({ word, onFinish }) => {
-  const canvasRef = useRef(null);
-  const targetCanvasRef = useRef(null);
-  const drawingRef = useRef(false);
-  const lastPointRef = useRef(null);
-  const [hasInk, setHasInk] = useState(false);
-  const [isChecking, setIsChecking] = useState(false);
-  const boxSize = 220;
-
-  const setupCanvas = useCallback((canvas) => {
-    if (!canvas) return null;
-    const ratio = window.devicePixelRatio || 1;
-    canvas.width = boxSize * ratio;
-    canvas.height = boxSize * ratio;
-    canvas.style.width = `${boxSize}px`;
-    canvas.style.height = `${boxSize}px`;
-    const ctx = canvas.getContext('2d', { willReadFrequently: true });
-    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    ctx.lineWidth = 16;
-    ctx.strokeStyle = '#4338ca';
-    return ctx;
-  }, []);
-
-  useEffect(() => {
-    const ctx = setupCanvas(canvasRef.current);
-    if (ctx) ctx.clearRect(0, 0, boxSize, boxSize);
-    setHasInk(false);
-  }, [setupCanvas, word]);
-
-  useEffect(() => {
-    let isMounted = true;
-    let hiddenHost;
-
-    loadHanziWriter().then(HanziWriter => {
-      if (!isMounted) return;
-      hiddenHost = document.createElement('div');
-      hiddenHost.style.position = 'fixed';
-      hiddenHost.style.left = '-9999px';
-      hiddenHost.style.top = '-9999px';
-      hiddenHost.style.width = `${boxSize}px`;
-      hiddenHost.style.height = `${boxSize}px`;
-      document.body.appendChild(hiddenHost);
-
-      try {
-        HanziWriter.create(hiddenHost, word[0], {
-          width: boxSize,
-          height: boxSize,
-          padding: 10,
-          showOutline: false,
-          showCharacter: true,
-          strokeColor: '#000000',
-        });
-
-        requestAnimationFrame(() => {
-          const svg = hiddenHost.querySelector('svg');
-          const targetCanvas = targetCanvasRef.current;
-          if (!isMounted || !svg || !targetCanvas) return;
-          const ratio = window.devicePixelRatio || 1;
-          targetCanvas.width = boxSize * ratio;
-          targetCanvas.height = boxSize * ratio;
-          const targetCtx = targetCanvas.getContext('2d', { willReadFrequently: true });
-          targetCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
-          targetCtx.clearRect(0, 0, boxSize, boxSize);
-
-          const svgText = new XMLSerializer().serializeToString(svg);
-          const img = new Image();
-          const url = URL.createObjectURL(new Blob([svgText], { type: 'image/svg+xml' }));
-          img.onload = () => {
-            targetCtx.drawImage(img, 0, 0, boxSize, boxSize);
-            URL.revokeObjectURL(url);
-          };
-          img.src = url;
-        });
-      } catch (err) {
-        // If target data is unavailable, submission will fall back to accepting a real attempt.
-      }
-    });
-
-    return () => {
-      isMounted = false;
-      if (hiddenHost?.parentNode) hiddenHost.parentNode.removeChild(hiddenHost);
-    };
-  }, [word]);
-
-  const getPoint = (e) => {
-    const rect = canvasRef.current.getBoundingClientRect();
-    const pointer = e.touches?.[0] || e;
-    return { x: pointer.clientX - rect.left, y: pointer.clientY - rect.top };
-  };
-
-  const startDrawing = (e) => {
-    e.preventDefault();
-    drawingRef.current = true;
-    lastPointRef.current = getPoint(e);
-  };
-
-  const draw = (e) => {
-    if (!drawingRef.current) return;
-    e.preventDefault();
-    const ctx = canvasRef.current.getContext('2d');
-    const point = getPoint(e);
-    const last = lastPointRef.current || point;
-    ctx.beginPath();
-    ctx.moveTo(last.x, last.y);
-    ctx.lineTo(point.x, point.y);
-    ctx.stroke();
-    lastPointRef.current = point;
-    setHasInk(true);
-  };
-
-  const stopDrawing = () => {
-    drawingRef.current = false;
-    lastPointRef.current = null;
-  };
-
-  const clearDrawing = () => {
-    const ctx = setupCanvas(canvasRef.current);
-    if (ctx) ctx.clearRect(0, 0, boxSize, boxSize);
-    setHasInk(false);
-  };
-
-  const scoreDrawing = () => {
-    const userCtx = canvasRef.current.getContext('2d', { willReadFrequently: true });
-    const targetCtx = targetCanvasRef.current?.getContext('2d', { willReadFrequently: true });
-    if (!targetCtx) return { score: hasInk ? 0.5 : 0, accepted: hasInk };
-
-    const user = userCtx.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height).data;
-    const target = targetCtx.getImageData(0, 0, targetCanvasRef.current.width, targetCanvasRef.current.height).data;
-    let userPixels = 0;
-    let targetPixels = 0;
-    let overlap = 0;
-
-    for (let i = 3; i < user.length; i += 4) {
-      const hasUser = user[i] > 20;
-      const hasTarget = target[i] > 20;
-      if (hasUser) userPixels += 1;
-      if (hasTarget) targetPixels += 1;
-      if (hasUser && hasTarget) overlap += 1;
-    }
-
-    if (userPixels < 150 || targetPixels === 0) return { score: 0, accepted: false };
-    const coverage = overlap / targetPixels;
-    const precision = overlap / userPixels;
-    const score = Math.round(((coverage * 0.65) + (precision * 0.35)) * 100);
-    return { score, accepted: coverage >= 0.22 && precision >= 0.18 };
-  };
-
-  const submitDrawing = () => {
-    if (!hasInk || isChecking) return;
-    setIsChecking(true);
-    const { score, accepted } = scoreDrawing();
-    onFinish && onFinish({ mistakes: accepted ? 0 : 1, revealed: false, score, accepted, isFreeDraw: true });
-  };
-
-  return (
-    <div className="flex flex-col items-center gap-4">
-      <div className="relative rounded-2xl border-2 border-slate-100 shadow-sm bg-white overflow-hidden" style={{ width: boxSize, height: boxSize }}>
-        <svg className="absolute inset-0 pointer-events-none" width={boxSize} height={boxSize}>
-          <line x1={boxSize / 2} y1="0" x2={boxSize / 2} y2={boxSize} stroke="#eef2f7" strokeWidth="1.5" />
-          <line x1="0" y1={boxSize / 2} x2={boxSize} y2={boxSize / 2} stroke="#eef2f7" strokeWidth="1.5" />
-          <line x1="0" y1="0" x2={boxSize} y2={boxSize} stroke="#f1f5f9" strokeWidth="1" strokeDasharray="4 4" />
-          <line x1={boxSize} y1="0" x2="0" y2={boxSize} stroke="#f1f5f9" strokeWidth="1" strokeDasharray="4 4" />
-        </svg>
-        <canvas
-          ref={canvasRef}
-          className="relative cursor-crosshair"
-          style={{ touchAction: 'none' }}
-          onMouseDown={startDrawing}
-          onMouseMove={draw}
-          onMouseUp={stopDrawing}
-          onMouseLeave={stopDrawing}
-          onTouchStart={startDrawing}
-          onTouchMove={draw}
-          onTouchEnd={stopDrawing}
-        />
-      </div>
-      <canvas ref={targetCanvasRef} className="hidden" aria-hidden="true" />
-      <div className="flex items-center gap-3">
-        <button onClick={clearDrawing} className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 rounded-full transition-colors uppercase tracking-wide">
-          <Eraser size={14} /> Clear
-        </button>
-        <button disabled={!hasInk || isChecking} onClick={submitDrawing} className="flex items-center gap-1.5 px-5 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 disabled:hover:bg-indigo-600 rounded-full transition-colors uppercase tracking-wide">
-          <CheckCircle2 size={14} /> Submit Drawing
-        </button>
-      </div>
-      <p className="text-xs text-slate-400 font-medium text-center max-w-xs">
-        Draw the full character from memory, then submit when you are ready. No stroke hints are shown while you draw.
-      </p>
-    </div>
-  );
-};
-
 // --- Main App Component ---
 export default function App() {
   const [appMode, setAppMode] = useState('menu'); 
   
   // Deck Selection State
   const [selectedUnits, setSelectedUnits] = useState(['6']);
-  const [studyDialogue, setStudyDialogue] = useState(true);
-  const [studyReading, setStudyReading] = useState(true);
-  const [studyVocab, setStudyVocab] = useState(true);
+  const [studyVocabulary, setStudyVocabulary] = useState(true);
+  const [studyQuizList, setStudyQuizList] = useState(true);
 
   // Active Session State
   const [currentDeck, setCurrentDeck] = useState([]);
@@ -1262,7 +933,6 @@ export default function App() {
   const [quizAudioEnabled, setQuizAudioEnabled] = useState(false);
   const [showPinyinInStrokeQuiz, setShowPinyinInStrokeQuiz] = useState(true);
   const [showPinyinInReverseQuiz, setShowPinyinInReverseQuiz] = useState(true);
-  const [drawPromptSource, setDrawPromptSource] = useState('meaning'); // 'meaning' | 'pinyin'
 
   // Flashcard State
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -1272,22 +942,31 @@ export default function App() {
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [quizAnswers, setQuizAnswers] = useState({});
   const [quizFinished, setQuizFinished] = useState(false);
+  const [lessonStats, setLessonStats] = useState({});
 
   const buildDeck = () => {
     let deck = [];
     selectedUnits.forEach(unit => {
-      if (studyDialogue && masterQuizList[unit]?.dialogue) {
-        deck = [...deck, ...masterQuizList[unit].dialogue];
+      if (studyVocabulary && masterQuizList[unit]?.vocab) {
+        deck = [...deck, ...masterQuizList[unit].vocab.map(card => ({ ...card, unit }))];
       }
-      if (studyReading && masterQuizList[unit]?.reading) {
-        deck = [...deck, ...masterQuizList[unit].reading];
-      }
-      if (studyVocab && masterQuizList[unit]?.vocab) {
-        deck = [...deck, ...masterQuizList[unit].vocab];
+      if (studyQuizList) {
+        deck = [...deck, ...(masterQuizList[unit]?.dialogue || []).map(card => ({ ...card, unit })), ...(masterQuizList[unit]?.reading || []).map(card => ({ ...card, unit }))];
       }
     });
     return deck;
   };
+
+  const getDeckSummary = () => selectedUnits.reduce((summary, unit) => {
+    const lesson = masterQuizList[unit] || {};
+    const vocabulary = studyVocabulary ? (lesson.vocab?.length || 0) : 0;
+    const quizList = studyQuizList ? (lesson.dialogue?.length || 0) + (lesson.reading?.length || 0) : 0;
+    return {
+      vocabulary: summary.vocabulary + vocabulary,
+      quizList: summary.quizList + quizList,
+      total: summary.total + vocabulary + quizList,
+    };
+  }, { vocabulary: 0, quizList: 0, total: 0 });
 
   const getGlobalVocab = () => {
     let allWords = [];
@@ -1306,7 +985,7 @@ export default function App() {
     const shuffledDeck = [...deck].sort(() => Math.random() - 0.5);
     setCurrentDeck(shuffledDeck);
     
-    if (mode === 'quiz' || mode === 'reverse_quiz' || mode === 'hanzi_quiz' || mode === 'draw_quiz' || mode === 'freedraw_quiz') {
+    if (mode === 'quiz' || mode === 'reverse_quiz' || mode === 'hanzi_quiz') {
       const globalVocab = getGlobalVocab();
       const questions = shuffledDeck.map(card => {
         const options = [card];
@@ -1378,7 +1057,7 @@ export default function App() {
         if (e.key === 'ArrowRight') nextCard();
         else if (e.key === 'ArrowLeft') prevCard();
         else if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); setIsFlipped((f) => !f); }
-      } else if (appMode === 'quiz' || appMode === 'reverse_quiz' || appMode === 'hanzi_quiz' || appMode === 'draw_quiz' || appMode === 'freedraw_quiz') {
+      } else if (appMode === 'quiz' || appMode === 'reverse_quiz' || appMode === 'hanzi_quiz') {
         if (!quizFinished) {
           if (e.key === 'ArrowRight') nextQuestion();
           else if (e.key === 'ArrowLeft') prevQuestion();
@@ -1401,19 +1080,22 @@ export default function App() {
       [currentIndex]: { option, isCorrect }
     }));
     
+    const lesson = currentQ.card.unit;
+    if (lesson) {
+      setLessonStats(prev => {
+        const current = prev[lesson] || { attempted: 0, correct: 0 };
+        return {
+          ...prev,
+          [lesson]: {
+            attempted: current.attempted + 1,
+            correct: current.correct + (isCorrect ? 1 : 0),
+          },
+        };
+      });
+    }
+
     if (isCorrect && quizAudioEnabled) {
       playBrowserAudio(currentQ.card.word);
-    }
-  };
-
-  const handleDrawFinish = ({ mistakes, revealed, score, accepted, isFreeDraw }) => {
-    const isCorrect = isFreeDraw ? accepted : !revealed;
-    setQuizAnswers(prev => {
-      if (prev[currentIndex]) return prev; // already recorded, avoid double-count
-      return { ...prev, [currentIndex]: { isCorrect, mistakes, score, isDraw: true, isFreeDraw } };
-    });
-    if (isCorrect && quizAudioEnabled) {
-      playBrowserAudio(quizQuestions[currentIndex].card.word);
     }
   };
 
@@ -1421,10 +1103,24 @@ export default function App() {
   const totalAnswered = Object.keys(quizAnswers).length;
   
   // Checking if start is allowed
-  const canStart = selectedUnits.length > 0 && (studyDialogue || studyReading || studyVocab) && buildDeck().length > 0;
+  const canStart = selectedUnits.length > 0 && (studyVocabulary || studyQuizList) && buildDeck().length > 0;
 
   // --- Render Functions ---
   const renderMenu = () => {
+    const unitEntries = Object.entries(masterQuizList);
+    const deckSummary = getDeckSummary();
+    // Evenly distribute colors around the hue wheel so added lessons automatically
+    // receive a distinct pastel rainbow treatment without updating a color list.
+    const getUnitTheme = (index) => {
+      const hue = (index * 360) / unitEntries.length;
+      return {
+        borderColor: `hsl(${hue} 62% 72%)`,
+        backgroundColor: `hsl(${hue} 82% 96%)`,
+        boxShadow: `0 8px 18px hsl(${hue} 65% 82% / 0.55)`,
+        color: `hsl(${hue} 38% 35%)`,
+      };
+    };
+
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center w-full relative">
         <div className="bg-white p-8 md:p-10 rounded-3xl shadow-2xl ring-1 ring-slate-900/5 max-w-4xl w-full border-t-4 border-indigo-500">
@@ -1439,61 +1135,95 @@ export default function App() {
           <div className="mb-6">
             <h3 className="font-bold text-slate-700 mb-4 uppercase tracking-wider text-sm">1. Select Unit(s)</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-left">
-              {Object.entries(masterQuizList).map(([unitKey, data]) => (
-                <label 
-                  key={unitKey} 
-                  className={`flex items-center p-3 border-2 rounded-xl cursor-pointer transition-all hover:-translate-y-0.5 ${
-                    selectedUnits.includes(unitKey) 
-                    ? 'border-indigo-500 bg-indigo-50 shadow-sm' 
-                    : 'border-slate-200 hover:bg-slate-50 hover:shadow-sm'
-                  }`}
-                >
-                  <input 
-                    type="checkbox" 
-                    className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 mr-3"
-                    checked={selectedUnits.includes(unitKey)}
-                    onChange={() => toggleUnit(unitKey)}
-                  />
-                  <div>
-                    <p className="font-bold text-slate-800">{data.title}</p>
-                    <p className="text-xs text-slate-500 font-medium">{data.subtitle}</p>
-                  </div>
-                </label>
-              ))}
+              {unitEntries.map(([unitKey, data], index) => {
+                const isSelected = selectedUnits.includes(unitKey);
+                const unitTheme = getUnitTheme(index);
+                const stats = lessonStats[unitKey];
+                const progressLabel = stats
+                  ? `${Math.round((stats.correct / stats.attempted) * 100)}% correct · ${stats.attempted} answered`
+                  : 'Not started';
+                return (
+                  <label
+                    key={unitKey}
+                    style={isSelected ? unitTheme : undefined}
+                    className={`relative flex items-center p-4 border-2 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] ${
+                      isSelected
+                        ? 'shadow-md'
+                        : 'border-slate-200 bg-white hover:bg-slate-50 hover:shadow-sm'
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      className="sr-only"
+                      checked={isSelected}
+                      onChange={() => toggleUnit(unitKey)}
+                    />
+                    <span style={isSelected ? { color: unitTheme.color } : undefined} className={`mr-3 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${isSelected ? 'border-current bg-white' : 'border-slate-300 bg-white text-transparent'}`}>
+                      <CheckCircle2 size={16} strokeWidth={3} />
+                    </span>
+                    <div>
+                      <p className="font-bold text-slate-800">{data.title}</p>
+                      <p className="text-xs text-slate-500 font-medium">{data.subtitle}</p>
+                      <p className={`mt-1 text-[10px] font-extrabold uppercase tracking-wider ${stats ? 'text-slate-600' : 'text-slate-400'}`}>{progressLabel}</p>
+                    </div>
+                    {isSelected && <span className="absolute right-3 top-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-500">Selected</span>}
+                  </label>
+                );
+              })}
             </div>
           </div>
 
-          <div className="mb-8">
-             <h3 className="font-bold text-slate-700 mb-4 uppercase tracking-wider text-sm">2. Select Vocabulary Sections</h3>
-             <div className="flex flex-wrap justify-center gap-4">
-                <label className={`flex items-center cursor-pointer px-6 py-4 rounded-xl border-2 transition-all ${studyDialogue ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:bg-slate-50'}`}>
-                  <input 
-                    type="checkbox" 
-                    className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 mr-3"
-                    checked={studyDialogue}
-                    onChange={(e) => setStudyDialogue(e.target.checked)}
+          <div className="mb-8 text-left">
+             <div className="flex flex-col gap-1 mb-4">
+               <h3 className="font-bold text-slate-700 uppercase tracking-wider text-sm">2. Choose study material</h3>
+               <p className="text-sm text-slate-500">Mix the lesson vocabulary with the quiz list that combines dialogue and short-reading terms.</p>
+             </div>
+             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <label className={`group relative flex items-start cursor-pointer p-5 rounded-2xl border-2 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] ${studyVocabulary ? 'border-indigo-500 bg-gradient-to-br from-indigo-50 to-violet-100 shadow-md shadow-indigo-100' : 'border-slate-200 bg-white hover:border-indigo-200 hover:bg-indigo-50/50 hover:shadow-sm'}`}>
+                  <input
+                    type="checkbox"
+                    className="sr-only"
+                    checked={studyVocabulary}
+                    onChange={(e) => setStudyVocabulary(e.target.checked)}
                   />
-                  <span className="font-bold text-slate-800">Dialogue</span>
+                  <span className={`mr-4 mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${studyVocabulary ? 'border-indigo-500 bg-white text-indigo-700' : 'border-slate-300 bg-white text-transparent'}`}>
+                    <CheckCircle2 size={16} strokeWidth={3} />
+                  </span>
+                  <div>
+                    <span className="font-bold text-indigo-950 block">Vocabulary</span>
+                    <span className="text-sm text-slate-500 mt-1 block">Core words and definitions from each selected lesson.</span>
+                  </div>
+                  {studyVocabulary && <span className="absolute right-4 top-4 text-[10px] font-extrabold uppercase tracking-wider text-indigo-700">Selected</span>}
                 </label>
-                <label className={`flex items-center cursor-pointer px-6 py-4 rounded-xl border-2 transition-all ${studyReading ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:bg-slate-50'}`}>
-                  <input 
-                    type="checkbox" 
-                    className="w-5 h-5 text-emerald-600 rounded focus:ring-emerald-500 mr-3"
-                    checked={studyReading}
-                    onChange={(e) => setStudyReading(e.target.checked)}
+                <label className={`group relative flex items-start cursor-pointer p-5 rounded-2xl border-2 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] ${studyQuizList ? 'border-emerald-500 bg-gradient-to-br from-emerald-50 to-teal-100 shadow-md shadow-emerald-100' : 'border-slate-200 bg-white hover:border-emerald-200 hover:bg-emerald-50/50 hover:shadow-sm'}`}>
+                  <input
+                    type="checkbox"
+                    className="sr-only"
+                    checked={studyQuizList}
+                    onChange={(e) => setStudyQuizList(e.target.checked)}
                   />
-                  <span className="font-bold text-slate-800">Short Reading</span>
-                </label>
-                <label className={`flex items-center cursor-pointer px-6 py-4 rounded-xl border-2 transition-all ${studyVocab ? 'border-amber-500 bg-amber-50' : 'border-slate-200 hover:bg-slate-50'}`}>
-                  <input 
-                    type="checkbox" 
-                    className="w-5 h-5 text-amber-600 rounded focus:ring-amber-500 mr-3"
-                    checked={studyVocab}
-                    onChange={(e) => setStudyVocab(e.target.checked)}
-                  />
-                  <span className="font-bold text-slate-800">Vocabulary</span>
+                  <span className={`mr-4 mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${studyQuizList ? 'border-emerald-500 bg-white text-emerald-700' : 'border-slate-300 bg-white text-transparent'}`}>
+                    <CheckCircle2 size={16} strokeWidth={3} />
+                  </span>
+                  <div>
+                    <span className="font-bold text-emerald-950 block">Quiz List</span>
+                    <span className="text-sm text-slate-500 mt-1 block">Dialogue and short-reading terms prepared for review.</span>
+                  </div>
+                  {studyQuizList && <span className="absolute right-4 top-4 text-[10px] font-extrabold uppercase tracking-wider text-emerald-700">Selected</span>}
                 </label>
              </div>
+          </div>
+
+          <div className="mb-8 flex flex-col gap-3 rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4 text-left sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm font-extrabold text-indigo-950">Study set ready</p>
+              <p className="text-xs font-medium text-indigo-700">{selectedUnits.length} lesson{selectedUnits.length !== 1 ? 's' : ''} selected</p>
+            </div>
+            <div className="flex flex-wrap gap-2 text-xs font-bold">
+              <span className="rounded-full bg-white px-3 py-1.5 text-indigo-700 shadow-sm">{deckSummary.vocabulary} Vocabulary</span>
+              <span className="rounded-full bg-white px-3 py-1.5 text-emerald-700 shadow-sm">{deckSummary.quizList} Quiz List</span>
+              <span className="rounded-full bg-indigo-600 px-3 py-1.5 text-white shadow-sm">{deckSummary.total} Total Cards</span>
+            </div>
           </div>
 
           {/* Settings Area */}
@@ -1519,63 +1249,33 @@ export default function App() {
               </label>
             </div>
 
-            <div className="w-full pt-4 mt-4 border-t border-slate-200 flex items-center gap-4 flex-wrap">
-              <span className="text-sm font-medium text-slate-600 flex items-center gap-1.5"><PenTool size={15} /> Draw Quiz prompts from:</span>
-              <div className="inline-flex rounded-full bg-slate-200 p-1">
-                <button
-                  type="button"
-                  onClick={() => setDrawPromptSource('meaning')}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${drawPromptSource === 'meaning' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-                >
-                  English Definition
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setDrawPromptSource('pinyin')}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${drawPromptSource === 'pinyin' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-                >
-                  Pinyin
-                </button>
-              </div>
-            </div>
+
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <button onClick={() => startMode('study')} disabled={!canStart}
-              className="flex flex-col items-center justify-center py-5 px-3 bg-indigo-600 text-white rounded-xl shadow-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-1">
+              className="flex flex-col items-center justify-center py-5 px-3 bg-indigo-600 text-white rounded-2xl shadow-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-1 hover:shadow-lg">
               <BookOpen size={28} className="mb-2" />
               <span className="font-bold text-lg leading-tight">Flashcards</span>
-              <span className="text-xs font-medium opacity-80 mt-1">Study Vocabulary</span>
+              <span className="text-xs font-medium opacity-80 mt-1">Study vocabulary</span>
             </button>
             <button onClick={() => startMode('quiz')} disabled={!canStart}
-              className="flex flex-col items-center justify-center py-5 px-3 bg-emerald-500 text-white rounded-xl shadow-md hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-1">
+              className="flex flex-col items-center justify-center py-5 px-3 bg-emerald-500 text-white rounded-2xl shadow-md hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-1 hover:shadow-lg">
               <Play size={28} className="mb-2" />
               <span className="font-bold text-lg leading-tight">Stroke Quiz</span>
               <span className="text-xs font-medium opacity-80 mt-1">Chinese → English</span>
             </button>
             <button onClick={() => startMode('reverse_quiz')} disabled={!canStart}
-              className="flex flex-col items-center justify-center py-5 px-3 bg-rose-500 text-white rounded-xl shadow-md hover:bg-rose-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-1">
+              className="flex flex-col items-center justify-center py-5 px-3 bg-rose-500 text-white rounded-2xl shadow-md hover:bg-rose-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-1 hover:shadow-lg">
               <Languages size={28} className="mb-2" />
               <span className="font-bold text-lg leading-tight">Reverse Quiz</span>
               <span className="text-xs font-medium opacity-80 mt-1">English → Chinese</span>
             </button>
             <button onClick={() => startMode('hanzi_quiz')} disabled={!canStart}
-              className="flex flex-col items-center justify-center py-5 px-3 bg-amber-500 text-white rounded-xl shadow-md hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-1">
+              className="flex flex-col items-center justify-center py-5 px-3 bg-amber-500 text-white rounded-2xl shadow-md hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-1 hover:shadow-lg">
               <Type size={28} className="mb-2" />
               <span className="font-bold text-lg leading-tight">Hanzi Match</span>
               <span className="text-xs font-medium opacity-80 mt-1">Pinyin → Hanzi</span>
-            </button>
-            <button onClick={() => startMode('draw_quiz')} disabled={!canStart}
-              className="flex flex-col items-center justify-center py-5 px-3 bg-violet-500 text-white rounded-xl shadow-md hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-1">
-              <PenTool size={28} className="mb-2" />
-              <span className="font-bold text-lg leading-tight">Guided Draw</span>
-              <span className="text-xs font-medium opacity-80 mt-1">Stroke-by-stroke practice</span>
-            </button>
-            <button onClick={() => startMode('freedraw_quiz')} disabled={!canStart}
-              className="flex flex-col items-center justify-center py-5 px-3 bg-fuchsia-500 text-white rounded-xl shadow-md hover:bg-fuchsia-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-1">
-              <Pencil size={28} className="mb-2" />
-              <span className="font-bold text-lg leading-tight">Free Draw</span>
-              <span className="text-xs font-medium opacity-80 mt-1">Draw from memory</span>
             </button>
           </div>
         </div>
@@ -1647,6 +1347,19 @@ export default function App() {
 
     if (quizFinished) {
       const wrongCount = totalAnswered - correctCount;
+      const accuracy = totalAnswered ? Math.round((correctCount / totalAnswered) * 100) : 0;
+      const missedQuestions = quizQuestions.filter((question, index) => {
+        const answer = quizAnswers[index];
+        return answer && !answer.isCorrect;
+      });
+
+      const studyMissedCards = () => {
+        if (missedQuestions.length === 0) return;
+        setCurrentDeck(missedQuestions.map(question => question.card));
+        setCurrentIndex(0);
+        setIsFlipped(false);
+        setAppMode('study');
+      };
 
       return (
         <div className="flex flex-col items-center justify-center w-full max-w-lg mt-12 bg-white p-10 rounded-3xl shadow-xl text-center border-t-8 border-emerald-500">
@@ -1654,16 +1367,40 @@ export default function App() {
             <CheckCircle2 size={48} />
           </div>
           <h2 className="text-4xl font-bold text-slate-800 mb-2">Quiz Complete!</h2>
-          <p className="text-slate-500 mb-8 text-xl font-medium">You scored <b className="text-indigo-600">{correctCount}</b> out of {totalAnswered}</p>
+          <p className="text-slate-500 text-xl font-medium">You scored <b className="text-indigo-600">{correctCount}</b> out of {totalAnswered}</p>
+          <p className="mb-6 text-sm font-bold text-emerald-700">{accuracy}% accuracy</p>
+
+          {wrongCount > 0 && (
+            <div className="mb-6 w-full rounded-2xl border border-rose-100 bg-rose-50 p-4 text-left">
+              <p className="mb-3 text-xs font-extrabold uppercase tracking-wider text-rose-700">Review these {wrongCount} term{wrongCount !== 1 ? 's' : ''}</p>
+              <div className="space-y-2">
+                {missedQuestions.slice(0, 5).map(({ card }, index) => (
+                  <div key={`${card.word}-${index}`} className="flex items-baseline justify-between gap-3 border-b border-rose-100 pb-2 last:border-0 last:pb-0">
+                    <span className="text-lg font-bold text-slate-800">{card.word}</span>
+                    <span className="text-right text-xs font-medium text-slate-600">{card.pinyin} · {card.meaning}</span>
+                  </div>
+                ))}
+              </div>
+              {wrongCount > 5 && <p className="mt-3 text-xs font-semibold text-rose-600">+ {wrongCount - 5} more in your review queue</p>}
+            </div>
+          )}
           
           <div className="flex flex-col gap-4 w-full">
             {wrongCount > 0 && (
-              <button 
-                onClick={startReviewMode}
-                className="w-full px-8 py-4 bg-rose-500 text-white font-bold rounded-full shadow hover:bg-rose-600 transition-colors flex items-center justify-center gap-2 text-lg"
-              >
-                <RotateCcw size={20} /> Review {wrongCount} Mistake{wrongCount !== 1 ? 's' : ''}
-              </button>
+              <>
+                <button
+                  onClick={startReviewMode}
+                  className="w-full px-8 py-4 bg-rose-500 text-white font-bold rounded-full shadow hover:bg-rose-600 transition-colors flex items-center justify-center gap-2 text-lg"
+                >
+                  <RotateCcw size={20} /> Review {wrongCount} Mistake{wrongCount !== 1 ? 's' : ''}
+                </button>
+                <button
+                  onClick={studyMissedCards}
+                  className="w-full px-8 py-3 bg-white text-indigo-700 font-bold rounded-full border-2 border-indigo-100 hover:border-indigo-300 hover:bg-indigo-50 transition-colors flex items-center justify-center gap-2"
+                >
+                  <BookOpen size={18} /> Study Missed Terms
+                </button>
+              </>
             )}
             <button 
               onClick={() => setAppMode('menu')} 
@@ -1682,8 +1419,6 @@ export default function App() {
     const isReverse = appMode === 'reverse_quiz';
     const isHanziMatch = appMode === 'hanzi_quiz';
     const isStrokeQuiz = appMode === 'quiz';
-    const isDrawQuiz = appMode === 'draw_quiz';
-    const isFreeDraw = appMode === 'freedraw_quiz';
 
     return (
       <div className="flex flex-col items-center justify-center w-full max-w-3xl mt-4 pb-12">
@@ -1740,68 +1475,6 @@ export default function App() {
             </>
           )}
 
-          {isDrawQuiz && (
-            <>
-              <p className="text-slate-400 text-xs font-bold uppercase tracking-widest absolute top-6">Draw the Character</p>
-              <div className="flex flex-col items-center mt-6 w-full">
-                <p className="text-2xl md:text-3xl font-bold text-indigo-600 text-center mb-6 px-4">
-                  {drawPromptSource === 'pinyin' ? currentQ.card.pinyin : `"${currentQ.card.meaning}"`}
-                </p>
-
-                {!currentAnswer ? (
-                  <DrawQuizAnimator
-                    key={`draw-${currentIndex}-${currentQ.card.word}`}
-                    word={currentQ.card.word}
-                    onFinish={handleDrawFinish}
-                  />
-                ) : (
-                  <div className="flex flex-col items-center animate-fade-in">
-                    <div className={`flex items-center gap-2 mb-4 px-4 py-2 rounded-full text-sm font-bold ${currentAnswer.isCorrect ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}`}>
-                      {currentAnswer.isCorrect ? <CheckCircle2 size={18} /> : <XCircle size={18} />}
-                      {currentAnswer.isCorrect ? 'Nicely drawn!' : (currentAnswer.isFreeDraw ? 'Try this one again' : 'Revealed answer')}
-                      {typeof currentAnswer.score === 'number' && ` · ${currentAnswer.score}% match`}
-                      {currentAnswer.mistakes > 0 && !currentAnswer.isFreeDraw && ` · ${currentAnswer.mistakes} miss${currentAnswer.mistakes !== 1 ? 'es' : ''}`}
-                    </div>
-                    <h2 className="text-6xl font-extrabold text-slate-800 mb-2 tracking-widest">{currentQ.card.word}</h2>
-                    <p className="text-xl font-bold text-indigo-600 mb-1">{currentQ.card.pinyin}</p>
-                    <p className="text-lg text-slate-500 font-medium">{currentQ.card.meaning}</p>
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-
-          {isFreeDraw && (
-            <>
-              <p className="text-slate-400 text-xs font-bold uppercase tracking-widest absolute top-6">Draw From Memory</p>
-              <div className="flex flex-col items-center mt-6 w-full">
-                <p className="text-2xl md:text-3xl font-bold text-indigo-600 text-center mb-6 px-4">
-                  {drawPromptSource === 'pinyin' ? currentQ.card.pinyin : `"${currentQ.card.meaning}"`}
-                </p>
-
-                {!currentAnswer ? (
-                  <FreeDrawAnimator
-                    key={`freedraw-${currentIndex}-${currentQ.card.word}`}
-                    word={currentQ.card.word}
-                    onFinish={handleDrawFinish}
-                  />
-                ) : (
-                  <div className="flex flex-col items-center animate-fade-in">
-                    <div className={`flex items-center gap-2 mb-4 px-4 py-2 rounded-full text-sm font-bold ${currentAnswer.isCorrect ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}`}>
-                      {currentAnswer.isCorrect ? <CheckCircle2 size={18} /> : <XCircle size={18} />}
-                      {currentAnswer.isCorrect ? 'Nicely drawn!' : (currentAnswer.isFreeDraw ? 'Try this one again' : 'Revealed answer')}
-                      {typeof currentAnswer.score === 'number' && ` · ${currentAnswer.score}% match`}
-                      {currentAnswer.mistakes > 0 && !currentAnswer.isFreeDraw && ` · ${currentAnswer.mistakes} miss${currentAnswer.mistakes !== 1 ? 'es' : ''}`}
-                    </div>
-                    <h2 className="text-6xl font-extrabold text-slate-800 mb-2 tracking-widest">{currentQ.card.word}</h2>
-                    <p className="text-xl font-bold text-indigo-600 mb-1">{currentQ.card.pinyin}</p>
-                    <p className="text-lg text-slate-500 font-medium">{currentQ.card.meaning}</p>
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-
           {(isReverse || isHanziMatch) && currentAnswer && (
               <div className="mt-6 flex flex-col items-center animate-fade-in border-t border-slate-100 w-full pt-6">
                 <p className="text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">Correct Hanzi</p>
@@ -1812,7 +1485,6 @@ export default function App() {
         </div>
 
         {/* Options Grid */}
-        {!isDrawQuiz && !isFreeDraw && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full px-4 mb-6">
           {currentQ.options.map((option, idx) => {
             let buttonClass = "p-5 rounded-2xl border-2 text-left transition-all focus:outline-none flex items-center justify-between ";
@@ -1855,17 +1527,6 @@ export default function App() {
             );
           })}
         </div>
-        )}
-
-        {(isDrawQuiz || isFreeDraw) && !currentAnswer && (
-          <div className="w-full flex justify-center mb-6 px-4">
-            <p className="text-xs text-slate-400 font-medium">
-              {isFreeDraw
-                ? 'Draw from memory — no outline, stroke animation, or auto-checking appears until you press Submit.'
-                : 'Draw with your mouse or finger — strokes are checked as you go.'}
-            </p>
-          </div>
-        )}
 
         {/* Navigation Controls */}
         <div className="flex items-center justify-between w-full mt-4 px-4">
@@ -1904,8 +1565,6 @@ export default function App() {
               {appMode === 'quiz' && 'Stroke Order Quiz'}
               {appMode === 'reverse_quiz' && 'Reverse Translation Quiz'}
               {appMode === 'hanzi_quiz' && 'Hanzi Match Quiz'}
-              {appMode === 'draw_quiz' && 'Guided Draw Quiz'}
-              {appMode === 'freedraw_quiz' && 'Free Draw Quiz'}
             </h2>
             
             {appMode === 'study' ? (
@@ -1926,7 +1585,7 @@ export default function App() {
       <div className="flex flex-col items-center justify-center p-4 flex-1">
         {appMode === 'menu' && renderMenu()}
         {appMode === 'study' && renderStudyMode()}
-        {(appMode === 'quiz' || appMode === 'reverse_quiz' || appMode === 'hanzi_quiz' || appMode === 'draw_quiz' || appMode === 'freedraw_quiz') && renderQuizMode()}
+        {(appMode === 'quiz' || appMode === 'reverse_quiz' || appMode === 'hanzi_quiz') && renderQuizMode()}
       </div>
 
       <style dangerouslySetInnerHTML={{__html: `
