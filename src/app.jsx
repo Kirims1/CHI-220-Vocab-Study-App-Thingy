@@ -904,7 +904,7 @@ export default function App() {
   const [appMode, setAppMode] = useState('menu'); 
   
   // Deck Selection State
-  const [selectedUnits, setSelectedUnits] = useState(['6']);
+  const [selectedUnits, setSelectedUnits] = useState([]);
   const [unitsExpanded, setUnitsExpanded] = useState(false);
   const [studyVocabulary, setStudyVocabulary] = useState(true);
   const [studyQuizList, setStudyQuizList] = useState(true);
@@ -1109,7 +1109,7 @@ export default function App() {
               <ChevronDown size={20} className={`text-slate-400 shrink-0 ml-2 transition-transform duration-300 ${unitsExpanded ? 'rotate-180' : ''}`} />
             </button>
 
-            <div className={`${unitsExpanded ? 'grid' : 'hidden'} sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-left max-h-72 sm:max-h-none overflow-y-auto sm:overflow-visible pr-1 sm:pr-0`}>
+            <div className={`unit-scroll ${unitsExpanded ? 'grid' : 'hidden'} sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-left max-h-72 sm:max-h-none overflow-y-auto sm:overflow-visible pr-1 sm:pr-0`}>
               {Object.entries(masterQuizList).map(([unitKey, data], index) => {
                 const isSelected = selectedUnits.includes(unitKey);
                 return (
@@ -1515,6 +1515,10 @@ export default function App() {
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .ease-bounce { transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .unit-scroll { scrollbar-width: thin; scrollbar-color: #a5b4fc transparent; }
+        .unit-scroll::-webkit-scrollbar { width: 6px; }
+        .unit-scroll::-webkit-scrollbar-track { background: transparent; }
+        .unit-scroll::-webkit-scrollbar-thumb { background-color: #a5b4fc; border-radius: 999px; }
       `}} />
     </div>
   );
