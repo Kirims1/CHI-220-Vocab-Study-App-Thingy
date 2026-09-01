@@ -13,4 +13,8 @@ Colors! Wow! Selection of Units now have a rainbow color
 
 Simplified choice of study materials to either Vocab from PowerPoint or Quiz List
 
+Now when starting nothing is selected
+
+Laptop and Mobile Have different UI's with Mobile the units are compressed down into a drop down menu with scroll bar
+
 UI update. Besides color now every button has a little pop out when hovering over and selecting study material and way of studying has a button press type animation.
