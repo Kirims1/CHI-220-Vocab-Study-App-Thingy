@@ -1126,29 +1126,37 @@ export default function App() {
                <p className="text-sm text-slate-500">Mix the lesson vocabulary with the quiz list.</p>
              </div>
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <label className={`group flex items-start cursor-pointer p-5 rounded-2xl border-2 transition-all duration-300 ease-bounce active:scale-90 ${studyVocabulary ? 'border-indigo-500 bg-indigo-50 shadow-sm scale-[1.03]' : 'border-slate-200 bg-white hover:border-indigo-200 hover:bg-slate-50 hover:scale-[1.02]'}`}>
+                <label className={`relative group flex items-start p-5 border-2 rounded-2xl cursor-pointer transition-all duration-300 ease-bounce hover:-translate-y-0.5 active:scale-90 ${studyVocabulary ? 'border-indigo-500 bg-indigo-50 shadow-md scale-[1.02]' : 'border-slate-200 bg-white hover:bg-slate-50 hover:shadow-sm'}`}>
                   <input
                     type="checkbox"
-                    className="mt-1 w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 mr-4"
+                    className="sr-only"
                     checked={studyVocabulary}
                     onChange={(e) => setStudyVocabulary(e.target.checked)}
                   />
+                  <span className={`mr-3 mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${studyVocabulary ? 'border-indigo-500 bg-white text-indigo-500' : 'border-slate-300 bg-white text-transparent'}`}>
+                    <CheckCircle2 size={16} strokeWidth={3} />
+                  </span>
                   <div>
-                    <span className="font-bold text-slate-800 block">Vocabulary</span>
-                    <span className="text-sm text-slate-500 mt-1 block">Core words and definitions from each selected lesson.</span>
+                    <p className="font-bold text-slate-800">Vocabulary</p>
+                    <p className="text-xs text-slate-500 font-medium">Core words and definitions from each selected lesson.</p>
                   </div>
+                  {studyVocabulary && <span className="absolute right-3 top-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-500">Selected</span>}
                 </label>
-                <label className={`group flex items-start cursor-pointer p-5 rounded-2xl border-2 transition-all duration-300 ease-bounce active:scale-90 ${studyQuizList ? 'border-emerald-500 bg-emerald-50 shadow-sm scale-[1.03]' : 'border-slate-200 bg-white hover:border-emerald-200 hover:bg-slate-50 hover:scale-[1.02]'}`}>
+                <label className={`relative group flex items-start p-5 border-2 rounded-2xl cursor-pointer transition-all duration-300 ease-bounce hover:-translate-y-0.5 active:scale-90 ${studyQuizList ? 'border-emerald-500 bg-emerald-50 shadow-md scale-[1.02]' : 'border-slate-200 bg-white hover:bg-slate-50 hover:shadow-sm'}`}>
                   <input
                     type="checkbox"
-                    className="mt-1 w-5 h-5 text-emerald-600 rounded focus:ring-emerald-500 mr-4"
+                    className="sr-only"
                     checked={studyQuizList}
                     onChange={(e) => setStudyQuizList(e.target.checked)}
                   />
+                  <span className={`mr-3 mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${studyQuizList ? 'border-emerald-500 bg-white text-emerald-500' : 'border-slate-300 bg-white text-transparent'}`}>
+                    <CheckCircle2 size={16} strokeWidth={3} />
+                  </span>
                   <div>
-                    <span className="font-bold text-slate-800 block">Quiz List</span>
-                    <span className="text-sm text-slate-500 mt-1 block">Quiz list terms prepared for review.</span>
+                    <p className="font-bold text-slate-800">Quiz List</p>
+                    <p className="text-xs text-slate-500 font-medium">Quiz list terms prepared for review.</p>
                   </div>
+                  {studyQuizList && <span className="absolute right-3 top-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-500">Selected</span>}
                 </label>
              </div>
           </div>
