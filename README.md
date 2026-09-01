@@ -1,7 +1,8 @@
 # CHI-220-Vocab-Study-App-Thingy
 
 Originally made by gemini and was imported into github by CodexAI to publish onto a full app
-Now update utilizing CodexAI and Claude Combined
+
+Now updated utilizing CodexAI and Claude Combined
 
 Link: (https://chi-220-vocab-study-app-thingy2-0.vercel.app/)
 
