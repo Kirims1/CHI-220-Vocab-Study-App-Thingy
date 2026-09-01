@@ -1,18 +1,11 @@
-# CHI-120-Vocab-Study-App-Thingy
+# CHI-220-Vocab-Study-App-Thingy
 
-Originally made by gemini but was imported into github by CodexAI in order to publish onto a full app
-Link: https://chi120-vocab-study-app.vercel.app/
+Originally made by gemini and was imported into github by CodexAI to publish onto a full app
+Now update utilizing CodexAI and Claude Combined
+Link: [Sny](https://chi-220-vocab-study-app-thingy2-0.vercel.app/)
 
-General Functions include:
-React + Vite vocabulary study app for CHI 120 with:
-- Flashcards with stroke-order animation
-- Stroke quiz (Chinese → English)
-- Reverse quiz (English → Chinese)
-- Hanzi match quiz (Pinyin → Hanzi)
-
-Updates:
-- Added dialogue and Short Reading Taken From Master List of Quizzes. Not sure if teacher pulls exactly from list but is still good to have
-- If you miss any questions on quiz, at the end you'll be able to practice/review those
-
-Update2:
-- Added so that after any of the quizes, it will show you the pinyin for all answers.
+Utilized old CHI 120 app and updated for CHI 220 with Professor Hong Synder
+New Features include:
+Colors! Wow! Selection of Units now have a rainbow color
+Simplified choice of study materials to either Vocab from PowerPoint or Quiz List
+UI update. Besides color now every button has a little pop out when hovering over and selecting study material and way of studying has a button press type animation.
