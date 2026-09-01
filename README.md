@@ -2,7 +2,7 @@
 
 Originally made by gemini and was imported into github by CodexAI to publish onto a full app
 Now update utilizing CodexAI and Claude Combined
-Link: [Sny](https://chi-220-vocab-study-app-thingy2-0.vercel.app/)
+Link: (https://chi-220-vocab-study-app-thingy2-0.vercel.app/)
 
 Utilized old CHI 120 app and updated for CHI 220 with Professor Hong Synder
 New Features include:
