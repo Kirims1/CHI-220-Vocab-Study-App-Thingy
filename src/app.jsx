@@ -1081,18 +1081,14 @@ export default function App() {
 
   // --- Render Functions ---
   const renderMenu = () => {
-    const unitEntries = Object.entries(masterQuizList);
-    // Evenly distribute colors around the hue wheel so added lessons automatically
-    // receive a distinct pastel rainbow treatment without updating a color list.
-    const getUnitTheme = (index) => {
-      const hue = (index * 360) / unitEntries.length;
-      return {
-        borderColor: `hsl(${hue} 62% 72%)`,
-        backgroundColor: `hsl(${hue} 82% 96%)`,
-        boxShadow: `0 8px 18px hsl(${hue} 65% 82% / 0.55)`,
-        color: `hsl(${hue} 38% 35%)`,
-      };
-    };
+    const unitThemes = [
+      'border-violet-500 bg-violet-50 shadow-violet-200/70',
+      'border-sky-500 bg-sky-50 shadow-sky-200/70',
+      'border-emerald-500 bg-emerald-50 shadow-emerald-200/70',
+      'border-amber-500 bg-amber-50 shadow-amber-200/70',
+      'border-rose-500 bg-rose-50 shadow-rose-200/70',
+      'border-cyan-500 bg-cyan-50 shadow-cyan-200/70',
+    ];
 
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center w-full relative">
@@ -1108,16 +1104,14 @@ export default function App() {
           <div className="mb-6">
             <h3 className="font-bold text-slate-700 mb-4 uppercase tracking-wider text-sm">1. Select Unit(s)</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-left">
-              {unitEntries.map(([unitKey, data], index) => {
+              {Object.entries(masterQuizList).map(([unitKey, data], index) => {
                 const isSelected = selectedUnits.includes(unitKey);
-                const unitTheme = getUnitTheme(index);
                 return (
                   <label
                     key={unitKey}
-                    style={isSelected ? unitTheme : undefined}
-                    className={`relative flex items-center p-4 border-2 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] ${
+                    className={`relative flex items-center p-4 border-2 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${
                       isSelected
-                        ? 'shadow-md'
+                        ? `${unitThemes[index % unitThemes.length]} shadow-md`
                         : 'border-slate-200 bg-white hover:bg-slate-50 hover:shadow-sm'
                     }`}
                   >
@@ -1127,7 +1121,7 @@ export default function App() {
                       checked={isSelected}
                       onChange={() => toggleUnit(unitKey)}
                     />
-                    <span style={isSelected ? { color: unitTheme.color } : undefined} className={`mr-3 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${isSelected ? 'border-current bg-white' : 'border-slate-300 bg-white text-transparent'}`}>
+                    <span className={`mr-3 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${isSelected ? 'border-current bg-white text-slate-700' : 'border-slate-300 bg-white text-transparent'}`}>
                       <CheckCircle2 size={16} strokeWidth={3} />
                     </span>
                     <div>
@@ -1147,7 +1141,7 @@ export default function App() {
                <p className="text-sm text-slate-500">Mix the lesson vocabulary with the quiz list that combines dialogue and short-reading terms.</p>
              </div>
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <label className={`group flex items-start cursor-pointer p-5 rounded-2xl border-2 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] ${studyVocabulary ? 'border-indigo-500 bg-gradient-to-br from-indigo-50 to-violet-100 shadow-md shadow-indigo-100' : 'border-slate-200 bg-white hover:border-indigo-200 hover:bg-indigo-50/50'}`}>
+                <label className={`group flex items-start cursor-pointer p-5 rounded-2xl border-2 transition-all ${studyVocabulary ? 'border-indigo-500 bg-indigo-50 shadow-sm' : 'border-slate-200 bg-white hover:border-indigo-200 hover:bg-slate-50'}`}>
                   <input
                     type="checkbox"
                     className="mt-1 w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 mr-4"
@@ -1155,11 +1149,11 @@ export default function App() {
                     onChange={(e) => setStudyVocabulary(e.target.checked)}
                   />
                   <div>
-                    <span className="font-bold text-indigo-950 block">Vocabulary</span>
+                    <span className="font-bold text-slate-800 block">Vocabulary</span>
                     <span className="text-sm text-slate-500 mt-1 block">Core words and definitions from each selected lesson.</span>
                   </div>
                 </label>
-                <label className={`group flex items-start cursor-pointer p-5 rounded-2xl border-2 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] ${studyQuizList ? 'border-emerald-500 bg-gradient-to-br from-emerald-50 to-teal-100 shadow-md shadow-emerald-100' : 'border-slate-200 bg-white hover:border-emerald-200 hover:bg-emerald-50/50'}`}>
+                <label className={`group flex items-start cursor-pointer p-5 rounded-2xl border-2 transition-all ${studyQuizList ? 'border-emerald-500 bg-emerald-50 shadow-sm' : 'border-slate-200 bg-white hover:border-emerald-200 hover:bg-slate-50'}`}>
                   <input
                     type="checkbox"
                     className="mt-1 w-5 h-5 text-emerald-600 rounded focus:ring-emerald-500 mr-4"
@@ -1167,7 +1161,7 @@ export default function App() {
                     onChange={(e) => setStudyQuizList(e.target.checked)}
                   />
                   <div>
-                    <span className="font-bold text-emerald-950 block">Quiz List</span>
+                    <span className="font-bold text-slate-800 block">Quiz List</span>
                     <span className="text-sm text-slate-500 mt-1 block">Dialogue and short-reading terms prepared for review.</span>
                   </div>
                 </label>
