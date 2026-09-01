@@ -942,7 +942,6 @@ export default function App() {
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [quizAnswers, setQuizAnswers] = useState({});
   const [quizFinished, setQuizFinished] = useState(false);
-  const [lessonStats, setLessonStats] = useState({});
 
   const buildDeck = () => {
     let deck = [];
@@ -956,17 +955,6 @@ export default function App() {
     });
     return deck;
   };
-
-  const getDeckSummary = () => selectedUnits.reduce((summary, unit) => {
-    const lesson = masterQuizList[unit] || {};
-    const vocabulary = studyVocabulary ? (lesson.vocab?.length || 0) : 0;
-    const quizList = studyQuizList ? (lesson.dialogue?.length || 0) + (lesson.reading?.length || 0) : 0;
-    return {
-      vocabulary: summary.vocabulary + vocabulary,
-      quizList: summary.quizList + quizList,
-      total: summary.total + vocabulary + quizList,
-    };
-  }, { vocabulary: 0, quizList: 0, total: 0 });
 
   const getGlobalVocab = () => {
     let allWords = [];
@@ -1080,19 +1068,10 @@ export default function App() {
       [currentIndex]: { option, isCorrect }
     }));
     
-    const lesson = currentQ.card.unit;
-    if (lesson) {
-      setLessonStats(prev => {
-        const current = prev[lesson] || { attempted: 0, correct: 0 };
-        return {
-          ...prev,
-          [lesson]: {
-            attempted: current.attempted + 1,
-            correct: current.correct + (isCorrect ? 1 : 0),
-          },
-        };
-      });
+    if (isCorrect && quizAudioEnabled) {
+      playBrowserAudio(currentQ.card.word);
     }
+  };
 
   const correctCount = Object.values(quizAnswers).filter(a => a.isCorrect).length;
   const totalAnswered = Object.keys(quizAnswers).length;
@@ -1187,18 +1166,6 @@ export default function App() {
                   </div>
                 </label>
              </div>
-          </div>
-
-          <div className="mb-8 flex flex-col gap-3 rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4 text-left sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm font-extrabold text-indigo-950">Study set ready</p>
-              <p className="text-xs font-medium text-indigo-700">{selectedUnits.length} lesson{selectedUnits.length !== 1 ? 's' : ''} selected</p>
-            </div>
-            <div className="flex flex-wrap gap-2 text-xs font-bold">
-              <span className="rounded-full bg-white px-3 py-1.5 text-indigo-700 shadow-sm">{deckSummary.vocabulary} Vocabulary</span>
-              <span className="rounded-full bg-white px-3 py-1.5 text-emerald-700 shadow-sm">{deckSummary.quizList} Quiz List</span>
-              <span className="rounded-full bg-indigo-600 px-3 py-1.5 text-white shadow-sm">{deckSummary.total} Total Cards</span>
-            </div>
           </div>
 
           {/* Settings Area */}
@@ -1322,19 +1289,6 @@ export default function App() {
 
     if (quizFinished) {
       const wrongCount = totalAnswered - correctCount;
-      const accuracy = totalAnswered ? Math.round((correctCount / totalAnswered) * 100) : 0;
-      const missedQuestions = quizQuestions.filter((question, index) => {
-        const answer = quizAnswers[index];
-        return answer && !answer.isCorrect;
-      });
-
-      const studyMissedCards = () => {
-        if (missedQuestions.length === 0) return;
-        setCurrentDeck(missedQuestions.map(question => question.card));
-        setCurrentIndex(0);
-        setIsFlipped(false);
-        setAppMode('study');
-      };
 
       return (
         <div className="flex flex-col items-center justify-center w-full max-w-lg mt-12 bg-white p-10 rounded-3xl shadow-xl text-center border-t-8 border-emerald-500">
@@ -1342,40 +1296,16 @@ export default function App() {
             <CheckCircle2 size={48} />
           </div>
           <h2 className="text-4xl font-bold text-slate-800 mb-2">Quiz Complete!</h2>
-          <p className="text-slate-500 text-xl font-medium">You scored <b className="text-indigo-600">{correctCount}</b> out of {totalAnswered}</p>
-          <p className="mb-6 text-sm font-bold text-emerald-700">{accuracy}% accuracy</p>
-
-          {wrongCount > 0 && (
-            <div className="mb-6 w-full rounded-2xl border border-rose-100 bg-rose-50 p-4 text-left">
-              <p className="mb-3 text-xs font-extrabold uppercase tracking-wider text-rose-700">Review these {wrongCount} term{wrongCount !== 1 ? 's' : ''}</p>
-              <div className="space-y-2">
-                {missedQuestions.slice(0, 5).map(({ card }, index) => (
-                  <div key={`${card.word}-${index}`} className="flex items-baseline justify-between gap-3 border-b border-rose-100 pb-2 last:border-0 last:pb-0">
-                    <span className="text-lg font-bold text-slate-800">{card.word}</span>
-                    <span className="text-right text-xs font-medium text-slate-600">{card.pinyin} · {card.meaning}</span>
-                  </div>
-                ))}
-              </div>
-              {wrongCount > 5 && <p className="mt-3 text-xs font-semibold text-rose-600">+ {wrongCount - 5} more in your review queue</p>}
-            </div>
-          )}
+          <p className="text-slate-500 mb-8 text-xl font-medium">You scored <b className="text-indigo-600">{correctCount}</b> out of {totalAnswered}</p>
           
           <div className="flex flex-col gap-4 w-full">
             {wrongCount > 0 && (
-              <>
-                <button
-                  onClick={startReviewMode}
-                  className="w-full px-8 py-4 bg-rose-500 text-white font-bold rounded-full shadow hover:bg-rose-600 transition-colors flex items-center justify-center gap-2 text-lg"
-                >
-                  <RotateCcw size={20} /> Review {wrongCount} Mistake{wrongCount !== 1 ? 's' : ''}
-                </button>
-                <button
-                  onClick={studyMissedCards}
-                  className="w-full px-8 py-3 bg-white text-indigo-700 font-bold rounded-full border-2 border-indigo-100 hover:border-indigo-300 hover:bg-indigo-50 transition-colors flex items-center justify-center gap-2"
-                >
-                  <BookOpen size={18} /> Study Missed Terms
-                </button>
-              </>
+              <button 
+                onClick={startReviewMode}
+                className="w-full px-8 py-4 bg-rose-500 text-white font-bold rounded-full shadow hover:bg-rose-600 transition-colors flex items-center justify-center gap-2 text-lg"
+              >
+                <RotateCcw size={20} /> Review {wrongCount} Mistake{wrongCount !== 1 ? 's' : ''}
+              </button>
             )}
             <button 
               onClick={() => setAppMode('menu')} 
