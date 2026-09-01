@@ -906,8 +906,8 @@ export default function App() {
   // Deck Selection State
   const [selectedUnits, setSelectedUnits] = useState([]);
   const [unitsExpanded, setUnitsExpanded] = useState(false);
-  const [studyVocabulary, setStudyVocabulary] = useState(true);
-  const [studyQuizList, setStudyQuizList] = useState(true);
+  const [studyVocabulary, setStudyVocabulary] = useState(false);
+  const [studyQuizList, setStudyQuizList] = useState(false);
 
   // Active Session State
   const [currentDeck, setCurrentDeck] = useState([]);
