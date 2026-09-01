@@ -6,34 +6,6 @@ const masterQuizList = {
       "1": {
     title: "Lesson 1",
     subtitle: "自我介绍 (Introductions)",
-    dialogue: [
-      { word: "我", pinyin: "wǒ", meaning: "I; me" },
-      { word: "自己", pinyin: "zì jǐ", meaning: "oneself" },
-      { word: "你好", pinyin: "nǐ hǎo", meaning: "hello" },
-      { word: "叫", pinyin: "jiào", meaning: "to be called" },
-      { word: "名字", pinyin: "míng zi", meaning: "name" },
-      { word: "姓", pinyin: "xìng", meaning: "surname" },
-      { word: "是", pinyin: "shì", meaning: "to be" },
-      { word: "大一", pinyin: "dà yī", meaning: "freshman" },
-      { word: "学生", pinyin: "xué sheng", meaning: "student" },
-      { word: "介绍", pinyin: "jiè shào", meaning: "to introduce" },
-      { word: "什么", pinyin: "shén me", meaning: "what" },
-      { word: "认识", pinyin: "rèn shi", meaning: "to know" },
-      { word: "高兴", pinyin: "gāo xìng", meaning: "happy" },
-      { word: "也", pinyin: "yě", meaning: "also" },
-      { word: "很", pinyin: "hěn", meaning: "very" },
-      { word: "吗", pinyin: "ma", meaning: "question particle" }
-    ],
-    reading: [
-      { word: "跟", pinyin: "gēn", meaning: "with" },
-      { word: "大家", pinyin: "dà jiā", meaning: "everyone" },
-      { word: "来", pinyin: "lái", meaning: "to come" },
-      { word: "年级", pinyin: "nián jí", meaning: "grade" },
-      { word: "中文", pinyin: "zhōng wén", meaning: "Chinese" },
-      { word: "一起", pinyin: "yì qǐ", meaning: "together" },
-      { word: "主修", pinyin: "zhǔ xiū", meaning: "major" },
-      { word: "她", pinyin: "tā", meaning: "she" }
-    ],
     vocab: [
       { word: "自我", pinyin: "zì wǒ", meaning: "self" },
       { word: "介绍", pinyin: "jiè shào", meaning: "to introduce; introduction" },
@@ -79,42 +51,37 @@ const masterQuizList = {
       { word: "跟", pinyin: "gēn", meaning: "with" }, 
       { word: "一起", pinyin: "yì qǐ", meaning: "together" },
       { word: "中文", pinyin: "zhōng wén", meaning: "Chinese language" },
+    ],
+    quizList: [
+      { word: "我", pinyin: "wǒ", meaning: "I; me" },
+      { word: "自己", pinyin: "zì jǐ", meaning: "oneself" },
+      { word: "你好", pinyin: "nǐ hǎo", meaning: "hello" },
+      { word: "叫", pinyin: "jiào", meaning: "to be called" },
+      { word: "名字", pinyin: "míng zi", meaning: "name" },
+      { word: "姓", pinyin: "xìng", meaning: "surname" },
+      { word: "是", pinyin: "shì", meaning: "to be" },
+      { word: "大一", pinyin: "dà yī", meaning: "freshman" },
+      { word: "学生", pinyin: "xué sheng", meaning: "student" },
+      { word: "介绍", pinyin: "jiè shào", meaning: "to introduce" },
+      { word: "什么", pinyin: "shén me", meaning: "what" },
+      { word: "认识", pinyin: "rèn shi", meaning: "to know" },
+      { word: "高兴", pinyin: "gāo xìng", meaning: "happy" },
+      { word: "也", pinyin: "yě", meaning: "also" },
+      { word: "很", pinyin: "hěn", meaning: "very" },
+      { word: "吗", pinyin: "ma", meaning: "question particle" },
+      { word: "跟", pinyin: "gēn", meaning: "with" },
+      { word: "大家", pinyin: "dà jiā", meaning: "everyone" },
+      { word: "来", pinyin: "lái", meaning: "to come" },
+      { word: "年级", pinyin: "nián jí", meaning: "grade" },
+      { word: "中文", pinyin: "zhōng wén", meaning: "Chinese" },
+      { word: "一起", pinyin: "yì qǐ", meaning: "together" },
+      { word: "主修", pinyin: "zhǔ xiū", meaning: "major" },
+      { word: "她", pinyin: "tā", meaning: "she" }
     ]
   },
   "2": {
     title: "Lesson 2",
     subtitle: "我的家庭 (My Family)",
-    dialogue: [
-      { word: "有", pinyin: "yǒu", meaning: "to have" },
-      { word: "几口人", pinyin: "jǐ kǒu rén", meaning: "how many family members" },
-      { word: "爸妈", pinyin: "bà mā", meaning: "parents (dad and mom)" },
-      { word: "哥姐", pinyin: "gē jiě", meaning: "older siblings (brother and sister)" },
-      { word: "爷奶", pinyin: "yé nǎi", meaning: "grandparents (grandpa and grandma)" },
-      { word: "弟妹", pinyin: "dì mèi", meaning: "younger siblings (brother and sister)" },
-      { word: "父母", pinyin: "fù mǔ", meaning: "parents" },
-      { word: "是...的", pinyin: "shì...de", meaning: "emphasis structure" },
-      { word: "在", pinyin: "zài", meaning: "at; in" },
-      { word: "和", pinyin: "hé", meaning: "and" },
-      { word: "做", pinyin: "zuò", meaning: "to do" },
-      { word: "工作", pinyin: "gōng zuò", meaning: "work; job" },
-      { word: "开", pinyin: "kāi", meaning: "to open; to drive" },
-      { word: "说得", pinyin: "shuō de", meaning: "to speak (degree)" },
-      { word: "还要", pinyin: "hái yào", meaning: "also want" }
-    ],
-    reading: [
-      { word: "住在", pinyin: "zhù zài", meaning: "live in" },
-      { word: "要", pinyin: "yào", meaning: "want" },
-      { word: "已经", pinyin: "yǐ jīng", meaning: "already" },
-      { word: "又", pinyin: "yòu", meaning: "again" },
-      { word: "到", pinyin: "dào", meaning: "arrive" },
-      { word: "都", pinyin: "dōu", meaning: "all" },
-      { word: "从", pinyin: "cóng", meaning: "from" },
-      { word: "移民", pinyin: "yí mín", meaning: "immigrate" },
-      { word: "了", pinyin: "le", meaning: "particle" },
-      { word: "们", pinyin: "men", meaning: "plural suffix" },
-      { word: "早年", pinyin: "zǎo nián", meaning: "early years" },
-      { word: "中国城", pinyin: "zhōng guó chéng", meaning: "Chinatown" },
-    ],
     vocab: [
       { word: "家", pinyin: "jiā", meaning: "family; home" },
       { word: "几", pinyin: "jǐ", meaning: "how many; several" },
@@ -167,42 +134,40 @@ const masterQuizList = {
       { word: "又", pinyin: "yòu", meaning: "again (in the past)" },
       { word: "们", pinyin: "men", meaning: "plural suffix for personal pronouns" },
       { word: "老板", pinyin: "lǎo bǎn", meaning: "boss" },
-      { word: "都", pinyin: "dōu", meaning: "all; both" },]
+      { word: "都", pinyin: "dōu", meaning: "all; both" },],
+    quizList: [
+      { word: "有", pinyin: "yǒu", meaning: "to have" },
+      { word: "几口人", pinyin: "jǐ kǒu rén", meaning: "how many family members" },
+      { word: "爸妈", pinyin: "bà mā", meaning: "parents (dad and mom)" },
+      { word: "哥姐", pinyin: "gē jiě", meaning: "older siblings (brother and sister)" },
+      { word: "爷奶", pinyin: "yé nǎi", meaning: "grandparents (grandpa and grandma)" },
+      { word: "弟妹", pinyin: "dì mèi", meaning: "younger siblings (brother and sister)" },
+      { word: "父母", pinyin: "fù mǔ", meaning: "parents" },
+      { word: "是...的", pinyin: "shì...de", meaning: "emphasis structure" },
+      { word: "在", pinyin: "zài", meaning: "at; in" },
+      { word: "和", pinyin: "hé", meaning: "and" },
+      { word: "做", pinyin: "zuò", meaning: "to do" },
+      { word: "工作", pinyin: "gōng zuò", meaning: "work; job" },
+      { word: "开", pinyin: "kāi", meaning: "to open; to drive" },
+      { word: "说得", pinyin: "shuō de", meaning: "to speak (degree)" },
+      { word: "还要", pinyin: "hái yào", meaning: "also want" },
+      { word: "住在", pinyin: "zhù zài", meaning: "live in" },
+      { word: "要", pinyin: "yào", meaning: "want" },
+      { word: "已经", pinyin: "yǐ jīng", meaning: "already" },
+      { word: "又", pinyin: "yòu", meaning: "again" },
+      { word: "到", pinyin: "dào", meaning: "arrive" },
+      { word: "都", pinyin: "dōu", meaning: "all" },
+      { word: "从", pinyin: "cóng", meaning: "from" },
+      { word: "移民", pinyin: "yí mín", meaning: "immigrate" },
+      { word: "了", pinyin: "le", meaning: "particle" },
+      { word: "们", pinyin: "men", meaning: "plural suffix" },
+      { word: "早年", pinyin: "zǎo nián", meaning: "early years" },
+      { word: "中国城", pinyin: "zhōng guó chéng", meaning: "Chinatown" }
+    ]
   },
   "3": {
     title: "Lesson 3",
     subtitle: "我的大学 (My College Life)",
-    dialogue: [
-      { word: "生活", pinyin: "shēng huó", meaning: "life" },
-      { word: "学期", pinyin: "xué qī", meaning: "semester" },
-      { word: "选", pinyin: "xuǎn", meaning: "choose" },
-      { word: "几门课", pinyin: "jǐ mén kè", meaning: "how many courses" },
-      { word: "个", pinyin: "gè", meaning: "measure word" },
-      { word: "想", pinyin: "xiǎng", meaning: "want/think" },
-      { word: "学校", pinyin: "xué xiào", meaning: "school" },
-      { word: "为什么", pinyin: "wèi shén me", meaning: "why" },
-      { word: "因为", pinyin: "yīn wèi", meaning: "because" },
-      { word: "那", pinyin: "nà", meaning: "that" },
-      { word: "去", pinyin: "qù", meaning: "go" },
-      { word: "打", pinyin: "dǎ", meaning: "play" },
-      { word: "喜欢", pinyin: "xǐ huān", meaning: "like" },
-      { word: "玩", pinyin: "wán", meaning: "play" },
-      { word: "时候", pinyin: "shí hou", meaning: "time" },
-      { word: "一言为定", pinyin: "yì yán wéi dìng", meaning: "deal" },
-    ],
-    reading: [
-      { word: "里边", pinyin: "lǐ biān", meaning: "inside" },
-      { word: "美", pinyin: "měi", meaning: "beautiful" },
-      { word: "校园", pinyin: "xiào yuán", meaning: "campus" },
-      { word: "图书馆", pinyin: "tú shū guǎn", meaning: "library" },
-      { word: "商店", pinyin: "shāng diàn", meaning: "store" },
-      { word: "座", pinyin: "zuò", meaning: "measure word" },
-      { word: "活动中心", pinyin: "huó dòng zhōng xīn", meaning: "activity center" },
-      { word: "游泳池", pinyin: "yóu yǒng chí", meaning: "pool" },
-      { word: "楼房", pinyin: "lóu fáng", meaning: "building" },
-      { word: "球场", pinyin: "qiú chǎng", meaning: "field" },
-      { word: "绿草坪", pinyin: "lǜ cǎo píng", meaning: "lawn" },
-    ],
     vocab: [
       { word: "生活", pinyin: "shēng huó", meaning: "life; to live" },
       { word: "个", pinyin: "gè", meaning: "generic measure word" },
@@ -265,42 +230,40 @@ const masterQuizList = {
       { word: "到处", pinyin: "dào chù", meaning: "everywhere" },
       { word: "绿", pinyin: "lǜ", meaning: "green" },
       { word: "草坪", pinyin: "cǎo píng", meaning: "lawn" }
+    ],
+    quizList: [
+      { word: "生活", pinyin: "shēng huó", meaning: "life" },
+      { word: "学期", pinyin: "xué qī", meaning: "semester" },
+      { word: "选", pinyin: "xuǎn", meaning: "choose" },
+      { word: "几门课", pinyin: "jǐ mén kè", meaning: "how many courses" },
+      { word: "个", pinyin: "gè", meaning: "measure word" },
+      { word: "想", pinyin: "xiǎng", meaning: "want/think" },
+      { word: "学校", pinyin: "xué xiào", meaning: "school" },
+      { word: "为什么", pinyin: "wèi shén me", meaning: "why" },
+      { word: "因为", pinyin: "yīn wèi", meaning: "because" },
+      { word: "那", pinyin: "nà", meaning: "that" },
+      { word: "去", pinyin: "qù", meaning: "go" },
+      { word: "打", pinyin: "dǎ", meaning: "play" },
+      { word: "喜欢", pinyin: "xǐ huān", meaning: "like" },
+      { word: "玩", pinyin: "wán", meaning: "play" },
+      { word: "时候", pinyin: "shí hou", meaning: "time" },
+      { word: "一言为定", pinyin: "yì yán wéi dìng", meaning: "deal" },
+      { word: "里边", pinyin: "lǐ biān", meaning: "inside" },
+      { word: "美", pinyin: "měi", meaning: "beautiful" },
+      { word: "校园", pinyin: "xiào yuán", meaning: "campus" },
+      { word: "图书馆", pinyin: "tú shū guǎn", meaning: "library" },
+      { word: "商店", pinyin: "shāng diàn", meaning: "store" },
+      { word: "座", pinyin: "zuò", meaning: "measure word" },
+      { word: "活动中心", pinyin: "huó dòng zhōng xīn", meaning: "activity center" },
+      { word: "游泳池", pinyin: "yóu yǒng chí", meaning: "pool" },
+      { word: "楼房", pinyin: "lóu fáng", meaning: "building" },
+      { word: "球场", pinyin: "qiú chǎng", meaning: "field" },
+      { word: "绿草坪", pinyin: "lǜ cǎo píng", meaning: "lawn" }
     ]
   },
   "4": {
     title: "Lesson 4",
     subtitle: "我的学生生活 (My Student Life)",
-    dialogue: [
-      { word: "经常", pinyin: "jīng cháng", meaning: "often" },
-      { word: "就", pinyin: "jiù", meaning: "then" },
-      { word: "每天", pinyin: "měi tiān", meaning: "every day" },
-      { word: "三点一线", pinyin: "sān diǎn yī xiàn", meaning: "routine life" },
-      { word: "吃", pinyin: "chī", meaning: "eat" },
-      { word: "饭菜", pinyin: "fàn cài", meaning: "food" },
-      { word: "没有", pinyin: "méi yǒu", meaning: "not have" },
-      { word: "对了", pinyin: "duì le", meaning: "by the way" },
-      { word: "请", pinyin: "qǐng", meaning: "please" },
-      { word: "上课", pinyin: "shàng kè", meaning: "attend class" },
-      { word: "会有意思", pinyin: "huì yǒu yì si", meaning: "will be interesting" },
-      { word: "忘", pinyin: "wàng", meaning: "forget" },
-      { word: "太忙了", pinyin: "tài máng le", meaning: "too busy" },
-      { word: "教室", pinyin: "jiào shì", meaning: "classroom" },
-      { word: "社团", pinyin: "shè tuán", meaning: "club" },
-      { word: "自习", pinyin: "zì xí", meaning: "self-study" },
-    ],
-    reading: [
-      { word: "除了…还…", pinyin: "chú le...hái...", meaning: "besides...also..." },
-      { word: "除了…就是…", pinyin: "chú le...jiù shì...", meaning: "nothing but" },
-      { word: "可以", pinyin: "kě yǐ", meaning: "can" },
-      { word: "交", pinyin: "jiāo", meaning: "make (friends)" },
-      { word: "新朋友", pinyin: "xīn péng you", meaning: "new friends" },
-      { word: "聊天", pinyin: "liáo tiān", meaning: "chat" },
-      { word: "不过", pinyin: "bú guò", meaning: "however" },
-      { word: "特别", pinyin: "tè bié", meaning: "especially" },
-      { word: "参加", pinyin: "cān jiā", meaning: "participate" },
-      { word: "花钱", pinyin: "huā qián", meaning: "spend money" },
-      { word: "月底", pinyin: "yuè dǐ", meaning: "end of month" },
-    ],
     vocab: [
       { word: "哦", pinyin: "ó", meaning: "oh" },
       { word: "正好", pinyin: "zhèng hǎo", meaning: "to happen to" },
@@ -344,28 +307,40 @@ const masterQuizList = {
       { word: "不", pinyin: "bù", meaning: "no; not" },
       { word: "月底", pinyin: "yuè dǐ", meaning: "end of the month" },
       { word: "光", pinyin: "guāng", meaning: "finished completely; light" }
+    ],
+    quizList: [
+      { word: "经常", pinyin: "jīng cháng", meaning: "often" },
+      { word: "就", pinyin: "jiù", meaning: "then" },
+      { word: "每天", pinyin: "měi tiān", meaning: "every day" },
+      { word: "三点一线", pinyin: "sān diǎn yī xiàn", meaning: "routine life" },
+      { word: "吃", pinyin: "chī", meaning: "eat" },
+      { word: "饭菜", pinyin: "fàn cài", meaning: "food" },
+      { word: "没有", pinyin: "méi yǒu", meaning: "not have" },
+      { word: "对了", pinyin: "duì le", meaning: "by the way" },
+      { word: "请", pinyin: "qǐng", meaning: "please" },
+      { word: "上课", pinyin: "shàng kè", meaning: "attend class" },
+      { word: "会有意思", pinyin: "huì yǒu yì si", meaning: "will be interesting" },
+      { word: "忘", pinyin: "wàng", meaning: "forget" },
+      { word: "太忙了", pinyin: "tài máng le", meaning: "too busy" },
+      { word: "教室", pinyin: "jiào shì", meaning: "classroom" },
+      { word: "社团", pinyin: "shè tuán", meaning: "club" },
+      { word: "自习", pinyin: "zì xí", meaning: "self-study" },
+      { word: "除了…还…", pinyin: "chú le...hái...", meaning: "besides...also..." },
+      { word: "除了…就是…", pinyin: "chú le...jiù shì...", meaning: "nothing but" },
+      { word: "可以", pinyin: "kě yǐ", meaning: "can" },
+      { word: "交", pinyin: "jiāo", meaning: "make (friends)" },
+      { word: "新朋友", pinyin: "xīn péng you", meaning: "new friends" },
+      { word: "聊天", pinyin: "liáo tiān", meaning: "chat" },
+      { word: "不过", pinyin: "bú guò", meaning: "however" },
+      { word: "特别", pinyin: "tè bié", meaning: "especially" },
+      { word: "参加", pinyin: "cān jiā", meaning: "participate" },
+      { word: "花钱", pinyin: "huā qián", meaning: "spend money" },
+      { word: "月底", pinyin: "yuè dǐ", meaning: "end of month" }
     ]
   },
   "5": {
     title: "Lesson 5",
     subtitle: "我的街区 (My Neighborhood)",
-    dialogue: [],
-    reading: [
-      { word: "街区", pinyin: "jiē qū", meaning: "neighborhood" },
-      { word: "市郊", pinyin: "shì jiāo", meaning: "suburbs" },
-      { word: "半小时", pinyin: "bàn xiǎo shí", meaning: "half an hour" },
-      { word: "周末", pinyin: "zhōu mò", meaning: "weekend" },
-      { word: "全家", pinyin: "quán jiā", meaning: "whole family" },
-      { word: "方便", pinyin: "fāng biàn", meaning: "convenient" },
-      { word: "买东西", pinyin: "mǎi dōng xi", meaning: "shop; buy things" },
-      { word: "医院", pinyin: "yī yuàn", meaning: "hospital" },
-      { word: "公园", pinyin: "gōng yuán", meaning: "park" },
-      { word: "邻居", pinyin: "lín jū", meaning: "neighbor" },
-      { word: "安全", pinyin: "ān quán", meaning: "safe" },
-      { word: "到处", pinyin: "dào chù", meaning: "everywhere" },
-      { word: "友好", pinyin: "yǒu hǎo", meaning: "friendly" },
-      { word: "虽然…但是…", pinyin: "suī rán...dàn shì...", meaning: "although...but..." },
-    ],
     vocab: [
       { word: "社区", pinyin: "shè qū", meaning: "community" },
       { word: "街区", pinyin: "jiē qū", meaning: "neighborhood; block" },
@@ -423,29 +398,27 @@ const masterQuizList = {
       { word: "公园", pinyin: "gōng yuán", meaning: "park" },
       { word: "邻居", pinyin: "lín jū", meaning: "neighbor" },
       { word: "友好", pinyin: "yǒu hǎo", meaning: "friendly" }
+    ],
+    quizList: [
+      { word: "街区", pinyin: "jiē qū", meaning: "neighborhood" },
+      { word: "市郊", pinyin: "shì jiāo", meaning: "suburbs" },
+      { word: "半小时", pinyin: "bàn xiǎo shí", meaning: "half an hour" },
+      { word: "周末", pinyin: "zhōu mò", meaning: "weekend" },
+      { word: "全家", pinyin: "quán jiā", meaning: "whole family" },
+      { word: "方便", pinyin: "fāng biàn", meaning: "convenient" },
+      { word: "买东西", pinyin: "mǎi dōng xi", meaning: "shop; buy things" },
+      { word: "医院", pinyin: "yī yuàn", meaning: "hospital" },
+      { word: "公园", pinyin: "gōng yuán", meaning: "park" },
+      { word: "邻居", pinyin: "lín jū", meaning: "neighbor" },
+      { word: "安全", pinyin: "ān quán", meaning: "safe" },
+      { word: "到处", pinyin: "dào chù", meaning: "everywhere" },
+      { word: "友好", pinyin: "yǒu hǎo", meaning: "friendly" },
+      { word: "虽然…但是…", pinyin: "suī rán...dàn shì...", meaning: "although...but..." }
     ]
   },
   "6": {
     title: "Lesson 6",
     subtitle: "中国城 (ChinaTown)",
-    dialogue: [],
-    reading: [
-      { word: "离", pinyin: "lí", meaning: "distance from" },
-      { word: "从早到晚", pinyin: "cóng zǎo dào wǎn", meaning: "from morning to night" },
-      { word: "热闹", pinyin: "rè nao", meaning: "lively" },
-      { word: "教堂", pinyin: "jiào táng", meaning: "church" },
-      { word: "吵闹", pinyin: "chǎo nào", meaning: "noisy" },
-      { word: "v.+着", pinyin: "v.+zhe", meaning: "ongoing action marker" },
-      { word: "主要", pinyin: "zhǔ yào", meaning: "main; primary" },
-      { word: "其他", pinyin: "qí tā", meaning: "other" },
-      { word: "国家", pinyin: "guó jiā", meaning: "country" },
-      { word: "华裔", pinyin: "huá yì", meaning: "ethnic Chinese" },
-      { word: "菜市场", pinyin: "cài shì chǎng", meaning: "food market" },
-      { word: "街心", pinyin: "jiē xīn", meaning: "street center" },
-      { word: "地铁", pinyin: "dì tiě", meaning: "subway" },
-      { word: "巴士", pinyin: "bā shì", meaning: "bus" },
-      { word: "坐", pinyin: "zuò", meaning: "to sit; ride" },
-    ],
     vocab: [
       { word: "哪", pinyin: "nǎ", meaning: "which" },
       { word: "条", pinyin: "tiáo", meaning: "measure word for street, road, river, pants" },
@@ -472,44 +445,28 @@ const masterQuizList = {
       { word: "其他", pinyin: "qí tā", meaning: "other" },
       { word: "国家", pinyin: "guó jiā", meaning: "country; nation" },
       { word: "华裔", pinyin: "huá yì", meaning: "of Chinese descent" }
+    ],
+    quizList: [
+      { word: "离", pinyin: "lí", meaning: "distance from" },
+      { word: "从早到晚", pinyin: "cóng zǎo dào wǎn", meaning: "from morning to night" },
+      { word: "热闹", pinyin: "rè nao", meaning: "lively" },
+      { word: "教堂", pinyin: "jiào táng", meaning: "church" },
+      { word: "吵闹", pinyin: "chǎo nào", meaning: "noisy" },
+      { word: "v.+着", pinyin: "v.+zhe", meaning: "ongoing action marker" },
+      { word: "主要", pinyin: "zhǔ yào", meaning: "main; primary" },
+      { word: "其他", pinyin: "qí tā", meaning: "other" },
+      { word: "国家", pinyin: "guó jiā", meaning: "country" },
+      { word: "华裔", pinyin: "huá yì", meaning: "ethnic Chinese" },
+      { word: "菜市场", pinyin: "cài shì chǎng", meaning: "food market" },
+      { word: "街心", pinyin: "jiē xīn", meaning: "street center" },
+      { word: "地铁", pinyin: "dì tiě", meaning: "subway" },
+      { word: "巴士", pinyin: "bā shì", meaning: "bus" },
+      { word: "坐", pinyin: "zuò", meaning: "to sit; ride" }
     ]
   },
   "7": {
     title: "Lesson 7",
     subtitle: "在中餐馆吃饭 (Eating out at a Chinese Restaurant)",
-    dialogue: [
-      { word: "生意", pinyin: "shēng yì", meaning: "business" },
-      { word: "进", pinyin: "jìn", meaning: "enter" },
-      { word: "服务员", pinyin: "fú wù yuán", meaning: "waiter/waitress" },
-      { word: "欢迎", pinyin: "huān yíng", meaning: "welcome" },
-      { word: "问", pinyin: "wèn", meaning: "to ask" },
-      { word: "两位", pinyin: "liǎng wèi", meaning: "two (people, polite)" },
-      { word: "喝茶", pinyin: "hē chá", meaning: "drink tea" },
-      { word: "杯", pinyin: "bēi", meaning: "cup (measure word)" },
-      { word: "点（菜）", pinyin: "diǎn (cài)", meaning: "order (food)" },
-      { word: "不客气", pinyin: "bú kè qi", meaning: "you're welcome" },
-      { word: "尝", pinyin: "cháng", meaning: "to taste" },
-      { word: "慢用", pinyin: "màn yòng", meaning: "enjoy your meal" },
-      { word: "请客", pinyin: "qǐng kè", meaning: "treat someone" },
-      { word: "谢谢", pinyin: "xiè xie", meaning: "thank you" },
-      { word: "炒", pinyin: "chǎo", meaning: "stir-fry" },
-      { word: "口福", pinyin: "kǒu fú", meaning: "good luck with food" },
-      { word: "买单", pinyin: "mǎi dān", meaning: "pay the bill" },
-      { word: "下次", pinyin: "xià cì", meaning: "next time" },
-    ],
-    reading: [
-      { word: "星期", pinyin: "xīng qī", meaning: "week" },
-      { word: "所有", pinyin: "suǒ yǒu", meaning: "all" },
-      { word: "桌子", pinyin: "zhuō zi", meaning: "table" },
-      { word: "排队", pinyin: "pái duì", meaning: "line up" },
-      { word: "红", pinyin: "hóng", meaning: "red" },
-      { word: "各式各样", pinyin: "gè shì gè yàng", meaning: "various kinds" },
-      { word: "五花八门", pinyin: "wǔ huā bā mén", meaning: "wide variety" },
-      { word: "一边…一边…", pinyin: "yì biān...yì biān...", meaning: "simultaneously" },
-      { word: "品尝", pinyin: "pǐn cháng", meaning: "to taste" },
-      { word: "饺", pinyin: "jiǎo", meaning: "dumpling (part)" },
-      { word: "包", pinyin: "bāo", meaning: "wrap; bun" },
-    ],
     vocab: [
       { word: "哇", pinyin: "wā", meaning: "Wow" },
       { word: "生意", pinyin: "shēng yi", meaning: "business" },
@@ -558,43 +515,42 @@ const masterQuizList = {
       { word: "小炒", pinyin: "xiǎo chǎo", meaning: "small stir-fried dish; side dishes" },
       { word: "一边", pinyin: "yī biān", meaning: "at the same time" },
       { word: "品尝", pinyin: "pǐn cháng", meaning: "to taste; to savor" }
+    ],
+    quizList: [
+      { word: "生意", pinyin: "shēng yì", meaning: "business" },
+      { word: "进", pinyin: "jìn", meaning: "enter" },
+      { word: "服务员", pinyin: "fú wù yuán", meaning: "waiter/waitress" },
+      { word: "欢迎", pinyin: "huān yíng", meaning: "welcome" },
+      { word: "问", pinyin: "wèn", meaning: "to ask" },
+      { word: "两位", pinyin: "liǎng wèi", meaning: "two (people, polite)" },
+      { word: "喝茶", pinyin: "hē chá", meaning: "drink tea" },
+      { word: "杯", pinyin: "bēi", meaning: "cup (measure word)" },
+      { word: "点（菜）", pinyin: "diǎn (cài)", meaning: "order (food)" },
+      { word: "不客气", pinyin: "bú kè qi", meaning: "you're welcome" },
+      { word: "尝", pinyin: "cháng", meaning: "to taste" },
+      { word: "慢用", pinyin: "màn yòng", meaning: "enjoy your meal" },
+      { word: "请客", pinyin: "qǐng kè", meaning: "treat someone" },
+      { word: "谢谢", pinyin: "xiè xie", meaning: "thank you" },
+      { word: "炒", pinyin: "chǎo", meaning: "stir-fry" },
+      { word: "口福", pinyin: "kǒu fú", meaning: "good luck with food" },
+      { word: "买单", pinyin: "mǎi dān", meaning: "pay the bill" },
+      { word: "下次", pinyin: "xià cì", meaning: "next time" },
+      { word: "星期", pinyin: "xīng qī", meaning: "week" },
+      { word: "所有", pinyin: "suǒ yǒu", meaning: "all" },
+      { word: "桌子", pinyin: "zhuō zi", meaning: "table" },
+      { word: "排队", pinyin: "pái duì", meaning: "line up" },
+      { word: "红", pinyin: "hóng", meaning: "red" },
+      { word: "各式各样", pinyin: "gè shì gè yàng", meaning: "various kinds" },
+      { word: "五花八门", pinyin: "wǔ huā bā mén", meaning: "wide variety" },
+      { word: "一边…一边…", pinyin: "yì biān...yì biān...", meaning: "simultaneously" },
+      { word: "品尝", pinyin: "pǐn cháng", meaning: "to taste" },
+      { word: "饺", pinyin: "jiǎo", meaning: "dumpling (part)" },
+      { word: "包", pinyin: "bāo", meaning: "wrap; bun" }
     ]
   },
   "8":{
     title: "Lesson 8",
     subtitle: "在朋友家做客​ (Visiting a Friend’s Family)",
-    dialogue:[
-      { word: "您", pinyin: "nín", meaning: "you (polite)" },
-      { word: "给", pinyin: "gěi", meaning: "to give" },
-      { word: "怎么", pinyin: "zěn me", meaning: "how" },
-      { word: "礼物", pinyin: "lǐ wù", meaning: "gift" },
-      { word: "带", pinyin: "dài", meaning: "bring" },
-      { word: "层", pinyin: "céng", meaning: "floor (measure word)" },
-      { word: "浴室", pinyin: "yù shì", meaning: "bathroom" },
-      { word: "客厅", pinyin: "kè tīng", meaning: "living room" },
-      { word: "厨房", pinyin: "chú fáng", meaning: "kitchen" },
-      { word: "洗手间", pinyin: "xǐ shǒu jiān", meaning: "restroom" },
-      { word: "吃得/不惯", pinyin: "chī de/bù guàn", meaning: "used to eating/not used to" },
-      { word: "家常便饭", pinyin: "jiā cháng biàn fàn", meaning: "home-style meal" },
-      { word: "开始", pinyin: "kāi shǐ", meaning: "start" },
-      { word: "几道菜", pinyin: "jǐ dào cài", meaning: "several dishes" },
-      { word: "只是…而已", pinyin: "zhǐ shì...ér yǐ", meaning: "just...only" },
-    ],
-    reading: [
-      { word: "地方特产", pinyin: "dì fāng tè chǎn", meaning: "local specialty" },
-      { word: "换上", pinyin: "huàn shàng", meaning: "change into" },
-      { word: "入座", pinyin: "rù zuò", meaning: "take a seat" },
-      { word: "招待", pinyin: "zhāo dài", meaning: "entertain guests" },
-      { word: "留", pinyin: "liú", meaning: "stay; keep" },
-      { word: "长辈", pinyin: "zhǎng bèi", meaning: "elders" },
-      { word: "应该", pinyin: "yīng gāi", meaning: "should" },
-      { word: "帮", pinyin: "bāng", meaning: "help" },
-      { word: "碗筷", pinyin: "wǎn kuài", meaning: "bowls and chopsticks" },
-      { word: "送", pinyin: "sòng", meaning: "to give/send" },
-      { word: "水果", pinyin: "shuǐ guǒ", meaning: "fruit" },
-      { word: "收拾", pinyin: "shōu shi", meaning: "clean up" },
-      { word: "才", pinyin: "cái", meaning: "only then" },
-    ],
     vocab: [
       { word: "伯父", pinyin: "bó fù", meaning: "uncle (father’s older brother); respectful term for older men" },
       { word: "伯母", pinyin: "bó mǔ", meaning: "aunt (wife of father’s older brother); respectful term for older women" },
@@ -654,40 +610,40 @@ const masterQuizList = {
       { word: "看不见", pinyin: "kàn bu jiàn", meaning: "cannot be seen" },
       { word: "关", pinyin: "guān", meaning: "to close" }
     ],
+    quizList: [
+      { word: "您", pinyin: "nín", meaning: "you (polite)" },
+      { word: "给", pinyin: "gěi", meaning: "to give" },
+      { word: "怎么", pinyin: "zěn me", meaning: "how" },
+      { word: "礼物", pinyin: "lǐ wù", meaning: "gift" },
+      { word: "带", pinyin: "dài", meaning: "bring" },
+      { word: "层", pinyin: "céng", meaning: "floor (measure word)" },
+      { word: "浴室", pinyin: "yù shì", meaning: "bathroom" },
+      { word: "客厅", pinyin: "kè tīng", meaning: "living room" },
+      { word: "厨房", pinyin: "chú fáng", meaning: "kitchen" },
+      { word: "洗手间", pinyin: "xǐ shǒu jiān", meaning: "restroom" },
+      { word: "吃得/不惯", pinyin: "chī de/bù guàn", meaning: "used to eating/not used to" },
+      { word: "家常便饭", pinyin: "jiā cháng biàn fàn", meaning: "home-style meal" },
+      { word: "开始", pinyin: "kāi shǐ", meaning: "start" },
+      { word: "几道菜", pinyin: "jǐ dào cài", meaning: "several dishes" },
+      { word: "只是…而已", pinyin: "zhǐ shì...ér yǐ", meaning: "just...only" },
+      { word: "地方特产", pinyin: "dì fāng tè chǎn", meaning: "local specialty" },
+      { word: "换上", pinyin: "huàn shàng", meaning: "change into" },
+      { word: "入座", pinyin: "rù zuò", meaning: "take a seat" },
+      { word: "招待", pinyin: "zhāo dài", meaning: "entertain guests" },
+      { word: "留", pinyin: "liú", meaning: "stay; keep" },
+      { word: "长辈", pinyin: "zhǎng bèi", meaning: "elders" },
+      { word: "应该", pinyin: "yīng gāi", meaning: "should" },
+      { word: "帮", pinyin: "bāng", meaning: "help" },
+      { word: "碗筷", pinyin: "wǎn kuài", meaning: "bowls and chopsticks" },
+      { word: "送", pinyin: "sòng", meaning: "to give/send" },
+      { word: "水果", pinyin: "shuǐ guǒ", meaning: "fruit" },
+      { word: "收拾", pinyin: "shōu shi", meaning: "clean up" },
+      { word: "才", pinyin: "cái", meaning: "only then" }
+    ],
   },
   "9": {
     title: "Lesson 9",
     subtitle: "音乐 (Music)",
-    dialogue: [
-      { word: "应有尽有", pinyin: "yīng yǒu jìn yǒu", meaning: "have everything one expects to find" },
-      { word: "古典", pinyin: "gǔ diǎn", meaning: "classical" },
-      { word: "首", pinyin: "shǒu", meaning: "measure word for songs" },
-      { word: "经久不衰", pinyin: "jīng jiǔ bù shuāi", meaning: "unfailing; enduring" },
-      { word: "觉得", pinyin: "jué de", meaning: "to feel; to think" },
-      { word: "流行", pinyin: "liú xíng", meaning: "popular" },
-      { word: "重要", pinyin: "zhòng yào", meaning: "important" },
-      { word: "影响", pinyin: "yǐng xiǎng", meaning: "influence; to affect" },
-      { word: "非常", pinyin: "fēi cháng", meaning: "extremely" },
-      { word: "演唱会", pinyin: "yǎn chàng huì", meaning: "vocal concert" },
-      { word: "作品", pinyin: "zuò pǐn", meaning: "works (of art/literature)" },
-      { word: "经典", pinyin: "jīng diǎn", meaning: "classic" },
-      { word: "歌手", pinyin: "gē shǒu", meaning: "singer" },
-      { word: "由", pinyin: "yóu", meaning: "by; from" }
-    ],
-    reading: [
-      { word: "发展成", pinyin: "fā zhǎn chéng", meaning: "to develop into" },
-      { word: "特点", pinyin: "tè diǎn", meaning: "characteristic" },
-      { word: "通俗易懂", pinyin: "tōng sú yì dǒng", meaning: "easy to understand" },
-      { word: "轻松活泼", pinyin: "qīng sōng huó pō", meaning: "light and lively" },
-      { word: "容易", pinyin: "róng yì", meaning: "easy" },
-      { word: "被", pinyin: "bèi", meaning: "by (passive marker)" },
-      { word: "听众", pinyin: "tīng zhòng", meaning: "audience" },
-      { word: "接受", pinyin: "jiē shòu", meaning: "to accept" },
-      { word: "世界", pinyin: "shì jiè", meaning: "world" },
-      { word: "歌曲", pinyin: "gē qǔ", meaning: "song" },
-      { word: "来自于", pinyin: "lái zì yú", meaning: "to come from" },
-      { word: "不仅...而且...", pinyin: "bù jǐn...ér qiě...", meaning: "not only... but also..." }
-    ],
     vocab: [
       { word: "应有尽有", pinyin: "yīng yǒu jìn yǒu", meaning: "to have everything one expects to find; all encompassing" },
       { word: "古典", pinyin: "gǔ diǎn", meaning: "classical" },
@@ -730,39 +686,38 @@ const masterQuizList = {
       { word: "当今", pinyin: "dāng jīn", meaning: "at the present time; nowadays" },
       { word: "歌曲", pinyin: "gē qǔ", meaning: "song" }
     ],
+    quizList: [
+      { word: "应有尽有", pinyin: "yīng yǒu jìn yǒu", meaning: "have everything one expects to find" },
+      { word: "古典", pinyin: "gǔ diǎn", meaning: "classical" },
+      { word: "首", pinyin: "shǒu", meaning: "measure word for songs" },
+      { word: "经久不衰", pinyin: "jīng jiǔ bù shuāi", meaning: "unfailing; enduring" },
+      { word: "觉得", pinyin: "jué de", meaning: "to feel; to think" },
+      { word: "流行", pinyin: "liú xíng", meaning: "popular" },
+      { word: "重要", pinyin: "zhòng yào", meaning: "important" },
+      { word: "影响", pinyin: "yǐng xiǎng", meaning: "influence; to affect" },
+      { word: "非常", pinyin: "fēi cháng", meaning: "extremely" },
+      { word: "演唱会", pinyin: "yǎn chàng huì", meaning: "vocal concert" },
+      { word: "作品", pinyin: "zuò pǐn", meaning: "works (of art/literature)" },
+      { word: "经典", pinyin: "jīng diǎn", meaning: "classic" },
+      { word: "歌手", pinyin: "gē shǒu", meaning: "singer" },
+      { word: "由", pinyin: "yóu", meaning: "by; from" },
+      { word: "发展成", pinyin: "fā zhǎn chéng", meaning: "to develop into" },
+      { word: "特点", pinyin: "tè diǎn", meaning: "characteristic" },
+      { word: "通俗易懂", pinyin: "tōng sú yì dǒng", meaning: "easy to understand" },
+      { word: "轻松活泼", pinyin: "qīng sōng huó pō", meaning: "light and lively" },
+      { word: "容易", pinyin: "róng yì", meaning: "easy" },
+      { word: "被", pinyin: "bèi", meaning: "by (passive marker)" },
+      { word: "听众", pinyin: "tīng zhòng", meaning: "audience" },
+      { word: "接受", pinyin: "jiē shòu", meaning: "to accept" },
+      { word: "世界", pinyin: "shì jiè", meaning: "world" },
+      { word: "歌曲", pinyin: "gē qǔ", meaning: "song" },
+      { word: "来自于", pinyin: "lái zì yú", meaning: "to come from" },
+      { word: "不仅...而且...", pinyin: "bù jǐn...ér qiě...", meaning: "not only... but also..." }
+    ],
   },
   "10": {
     title: "Lesson 10",
     subtitle: "购物 (Shopping)",
-    dialogue: [
-      { word: "购物", pinyin: "gòu wù", meaning: "shopping" },
-      { word: "偶尔", pinyin: "ǒu ěr", meaning: "occasionally" },
-      { word: "逛", pinyin: "guàng", meaning: "to stroll; to visit" },
-      { word: "电商", pinyin: "diàn shāng", meaning: "e-commerce" },
-      { word: "时尚", pinyin: "shí shàng", meaning: "fashion" },
-      { word: "新款", pinyin: "xīn kuǎn", meaning: "new style" },
-      { word: "爆款", pinyin: "bào kuǎn", meaning: "hit item; best-seller" },
-      { word: "一件卫衣", pinyin: "yí jiàn wèi yī", meaning: "a hoodie" },
-      { word: "一条牛仔裤", pinyin: "yì tiáo niú zǎi kù", meaning: "a pair of jeans" },
-      { word: "裙子", pinyin: "qún zi", meaning: "skirt" },
-      { word: "第", pinyin: "dì", meaning: "prefix for ordinal number" },
-      { word: "帽子", pinyin: "mào zi", meaning: "hat" },
-      { word: "围巾", pinyin: "wéi jīn", meaning: "scarf" },
-      { word: "商场", pinyin: "shāng chǎng", meaning: "shopping mall" },
-      { word: "产品", pinyin: "chǎn pǐn", meaning: "product" }
-    ],
-    reading: [
-      { word: "称", pinyin: "chēng", meaning: "to call; to name" },
-      { word: "信息", pinyin: "xìn xī", meaning: "information" },
-      { word: "获取", pinyin: "huò qǔ", meaning: "obtain" },
-      { word: "娱乐", pinyin: "yú lè", meaning: "entertainment" },
-      { word: "随着", pinyin: "suí zhe", meaning: "along with" },
-      { word: "高科技", pinyin: "gāo kē jì", meaning: "high technology" },
-      { word: "越来越", pinyin: "yuè lái yuè", meaning: "more and more" },
-      { word: "适可而止", pinyin: "shì kě ér zhǐ", meaning: "stop at the right point" },
-      { word: "浪费", pinyin: "làng fèi", meaning: "waste" },
-      { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" },
-    ],
     vocab: [
       { word: "巧", pinyin: "qiǎo", meaning: "coincidental" },
       { word: "这里", pinyin: "zhè lǐ", meaning: "here" },
@@ -815,6 +770,33 @@ const masterQuizList = {
       { word: "浪费", pinyin: "làng fèi", meaning: "to waste" },
       { word: "适可而止", pinyin: "shì kě ér zhǐ", meaning: "to exercise control and discretion" },
       { word: "注意", pinyin: "zhù yì", meaning: "to pay attention" }
+    ],
+    quizList: [
+      { word: "购物", pinyin: "gòu wù", meaning: "shopping" },
+      { word: "偶尔", pinyin: "ǒu ěr", meaning: "occasionally" },
+      { word: "逛", pinyin: "guàng", meaning: "to stroll; to visit" },
+      { word: "电商", pinyin: "diàn shāng", meaning: "e-commerce" },
+      { word: "时尚", pinyin: "shí shàng", meaning: "fashion" },
+      { word: "新款", pinyin: "xīn kuǎn", meaning: "new style" },
+      { word: "爆款", pinyin: "bào kuǎn", meaning: "hit item; best-seller" },
+      { word: "一件卫衣", pinyin: "yí jiàn wèi yī", meaning: "a hoodie" },
+      { word: "一条牛仔裤", pinyin: "yì tiáo niú zǎi kù", meaning: "a pair of jeans" },
+      { word: "裙子", pinyin: "qún zi", meaning: "skirt" },
+      { word: "第", pinyin: "dì", meaning: "prefix for ordinal number" },
+      { word: "帽子", pinyin: "mào zi", meaning: "hat" },
+      { word: "围巾", pinyin: "wéi jīn", meaning: "scarf" },
+      { word: "商场", pinyin: "shāng chǎng", meaning: "shopping mall" },
+      { word: "产品", pinyin: "chǎn pǐn", meaning: "product" },
+      { word: "称", pinyin: "chēng", meaning: "to call; to name" },
+      { word: "信息", pinyin: "xìn xī", meaning: "information" },
+      { word: "获取", pinyin: "huò qǔ", meaning: "obtain" },
+      { word: "娱乐", pinyin: "yú lè", meaning: "entertainment" },
+      { word: "随着", pinyin: "suí zhe", meaning: "along with" },
+      { word: "高科技", pinyin: "gāo kē jì", meaning: "high technology" },
+      { word: "越来越", pinyin: "yuè lái yuè", meaning: "more and more" },
+      { word: "适可而止", pinyin: "shì kě ér zhǐ", meaning: "stop at the right point" },
+      { word: "浪费", pinyin: "làng fèi", meaning: "waste" },
+      { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" }
     ], 
   },
 };
@@ -949,8 +931,8 @@ export default function App() {
       if (studyVocabulary && masterQuizList[unit]?.vocab) {
         deck = [...deck, ...masterQuizList[unit].vocab];
       }
-      if (studyQuizList) {
-        deck = [...deck, ...(masterQuizList[unit]?.dialogue || []), ...(masterQuizList[unit]?.reading || [])];
+      if (studyQuizList && masterQuizList[unit]?.quizList) {
+        deck = [...deck, ...masterQuizList[unit].quizList];
       }
     });
     return deck;
@@ -959,8 +941,7 @@ export default function App() {
   const getGlobalVocab = () => {
     let allWords = [];
     Object.values(masterQuizList).forEach(unit => {
-      if (unit.dialogue) allWords.push(...unit.dialogue);
-      if (unit.reading) allWords.push(...unit.reading);
+      if (unit.quizList) allWords.push(...unit.quizList);
       if (unit.vocab) allWords.push(...unit.vocab);
     });
     return allWords;
@@ -1082,12 +1063,16 @@ export default function App() {
   // --- Render Functions ---
   const renderMenu = () => {
     const unitThemes = [
-      'border-violet-500 bg-violet-50 shadow-violet-200/70',
-      'border-sky-500 bg-sky-50 shadow-sky-200/70',
-      'border-emerald-500 bg-emerald-50 shadow-emerald-200/70',
+      'border-red-500 bg-red-50 shadow-red-200/70',
+      'border-orange-500 bg-orange-50 shadow-orange-200/70',
       'border-amber-500 bg-amber-50 shadow-amber-200/70',
-      'border-rose-500 bg-rose-50 shadow-rose-200/70',
+      'border-yellow-500 bg-yellow-50 shadow-yellow-200/70',
+      'border-lime-500 bg-lime-50 shadow-lime-200/70',
+      'border-green-500 bg-green-50 shadow-green-200/70',
+      'border-teal-500 bg-teal-50 shadow-teal-200/70',
       'border-cyan-500 bg-cyan-50 shadow-cyan-200/70',
+      'border-blue-500 bg-blue-50 shadow-blue-200/70',
+      'border-violet-500 bg-violet-50 shadow-violet-200/70',
     ];
 
     return (
@@ -1138,10 +1123,10 @@ export default function App() {
           <div className="mb-8 text-left">
              <div className="flex flex-col gap-1 mb-4">
                <h3 className="font-bold text-slate-700 uppercase tracking-wider text-sm">2. Choose study material</h3>
-               <p className="text-sm text-slate-500">Mix the lesson vocabulary with the quiz list that combines dialogue and short-reading terms.</p>
+               <p className="text-sm text-slate-500">Mix the lesson vocabulary with the quiz list.</p>
              </div>
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <label className={`group flex items-start cursor-pointer p-5 rounded-2xl border-2 transition-all ${studyVocabulary ? 'border-indigo-500 bg-indigo-50 shadow-sm' : 'border-slate-200 bg-white hover:border-indigo-200 hover:bg-slate-50'}`}>
+                <label className={`group flex items-start cursor-pointer p-5 rounded-2xl border-2 transition-all duration-300 ease-bounce active:scale-90 ${studyVocabulary ? 'border-indigo-500 bg-indigo-50 shadow-sm scale-[1.03]' : 'border-slate-200 bg-white hover:border-indigo-200 hover:bg-slate-50 hover:scale-[1.02]'}`}>
                   <input
                     type="checkbox"
                     className="mt-1 w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 mr-4"
@@ -1153,7 +1138,7 @@ export default function App() {
                     <span className="text-sm text-slate-500 mt-1 block">Core words and definitions from each selected lesson.</span>
                   </div>
                 </label>
-                <label className={`group flex items-start cursor-pointer p-5 rounded-2xl border-2 transition-all ${studyQuizList ? 'border-emerald-500 bg-emerald-50 shadow-sm' : 'border-slate-200 bg-white hover:border-emerald-200 hover:bg-slate-50'}`}>
+                <label className={`group flex items-start cursor-pointer p-5 rounded-2xl border-2 transition-all duration-300 ease-bounce active:scale-90 ${studyQuizList ? 'border-emerald-500 bg-emerald-50 shadow-sm scale-[1.03]' : 'border-slate-200 bg-white hover:border-emerald-200 hover:bg-slate-50 hover:scale-[1.02]'}`}>
                   <input
                     type="checkbox"
                     className="mt-1 w-5 h-5 text-emerald-600 rounded focus:ring-emerald-500 mr-4"
@@ -1162,7 +1147,7 @@ export default function App() {
                   />
                   <div>
                     <span className="font-bold text-slate-800 block">Quiz List</span>
-                    <span className="text-sm text-slate-500 mt-1 block">Dialogue and short-reading terms prepared for review.</span>
+                    <span className="text-sm text-slate-500 mt-1 block">Quiz list terms prepared for review.</span>
                   </div>
                 </label>
              </div>
@@ -1196,25 +1181,25 @@ export default function App() {
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <button onClick={() => startMode('study')} disabled={!canStart}
-              className="flex flex-col items-center justify-center py-5 px-3 bg-indigo-600 text-white rounded-2xl shadow-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-1 hover:shadow-lg">
+              className="flex flex-col items-center justify-center py-5 px-3 bg-indigo-600 text-white rounded-2xl shadow-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0 transition-all duration-300 ease-bounce hover:-translate-y-1 hover:scale-105 hover:shadow-lg active:scale-90 active:translate-y-0">
               <BookOpen size={28} className="mb-2" />
               <span className="font-bold text-lg leading-tight">Flashcards</span>
               <span className="text-xs font-medium opacity-80 mt-1">Study vocabulary</span>
             </button>
             <button onClick={() => startMode('quiz')} disabled={!canStart}
-              className="flex flex-col items-center justify-center py-5 px-3 bg-emerald-500 text-white rounded-2xl shadow-md hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-1 hover:shadow-lg">
+              className="flex flex-col items-center justify-center py-5 px-3 bg-emerald-500 text-white rounded-2xl shadow-md hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0 transition-all duration-300 ease-bounce hover:-translate-y-1 hover:scale-105 hover:shadow-lg active:scale-90 active:translate-y-0">
               <Play size={28} className="mb-2" />
               <span className="font-bold text-lg leading-tight">Stroke Quiz</span>
               <span className="text-xs font-medium opacity-80 mt-1">Chinese → English</span>
             </button>
             <button onClick={() => startMode('reverse_quiz')} disabled={!canStart}
-              className="flex flex-col items-center justify-center py-5 px-3 bg-rose-500 text-white rounded-2xl shadow-md hover:bg-rose-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-1 hover:shadow-lg">
+              className="flex flex-col items-center justify-center py-5 px-3 bg-rose-500 text-white rounded-2xl shadow-md hover:bg-rose-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0 transition-all duration-300 ease-bounce hover:-translate-y-1 hover:scale-105 hover:shadow-lg active:scale-90 active:translate-y-0">
               <Languages size={28} className="mb-2" />
               <span className="font-bold text-lg leading-tight">Reverse Quiz</span>
               <span className="text-xs font-medium opacity-80 mt-1">English → Chinese</span>
             </button>
             <button onClick={() => startMode('hanzi_quiz')} disabled={!canStart}
-              className="flex flex-col items-center justify-center py-5 px-3 bg-amber-500 text-white rounded-2xl shadow-md hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-1 hover:shadow-lg">
+              className="flex flex-col items-center justify-center py-5 px-3 bg-amber-500 text-white rounded-2xl shadow-md hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0 transition-all duration-300 ease-bounce hover:-translate-y-1 hover:scale-105 hover:shadow-lg active:scale-90 active:translate-y-0">
               <Type size={28} className="mb-2" />
               <span className="font-bold text-lg leading-tight">Hanzi Match</span>
               <span className="text-xs font-medium opacity-80 mt-1">Pinyin → Hanzi</span>
@@ -1500,6 +1485,7 @@ export default function App() {
         .rotate-y-180 { transform: rotateY(180deg); }
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .ease-bounce { transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); }
       `}} />
     </div>
   );
