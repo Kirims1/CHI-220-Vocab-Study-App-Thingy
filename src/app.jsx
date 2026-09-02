@@ -1114,7 +1114,7 @@ export default function App() {
                <p className="text-sm text-slate-500"></p>
              </div>
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <label className={`relative group flex items-start px-5 pb-5 border-2 rounded-2xl cursor-pointer transition-all duration-300 ease-bounce hover:-translate-y-0.5 active:scale-90 ${studyVocabulary ? 'pt-8 border-indigo-500 bg-indigo-50 shadow-md scale-[1.02]' : 'pt-5 border-slate-200 bg-white hover:bg-slate-50 hover:shadow-sm'}`}>
+                <label className={`relative group flex items-start p-5 border-2 rounded-2xl cursor-pointer transition-all duration-300 ease-bounce hover:-translate-y-0.5 active:scale-90 ${studyVocabulary ? 'border-indigo-500 bg-indigo-50 shadow-md scale-[1.02]' : 'border-slate-200 bg-white hover:bg-slate-50 hover:shadow-sm'}`}>
                   <input
                     type="checkbox"
                     className="sr-only"
@@ -1128,9 +1128,9 @@ export default function App() {
                     <p className="font-bold text-slate-800">Vocabulary</p>
                     <p className="text-xs text-slate-500 font-medium">Cited From the Powerpoint.</p>
                   </div>
-                  {studyVocabulary && <span className="absolute right-3 top-2 text-[10px] font-extrabold uppercase tracking-wider text-slate-500 whitespace-nowrap">Selected</span>}
+                  {studyVocabulary && <span className="absolute right-3 top-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-500">Selected</span>}
                 </label>
-                <label className={`relative group flex items-start px-5 pb-5 border-2 rounded-2xl cursor-pointer transition-all duration-300 ease-bounce hover:-translate-y-0.5 active:scale-90 ${studyQuizList ? 'pt-8 border-emerald-500 bg-emerald-50 shadow-md scale-[1.02]' : 'pt-5 border-slate-200 bg-white hover:bg-slate-50 hover:shadow-sm'}`}>
+                <label className={`relative group flex items-start p-5 border-2 rounded-2xl cursor-pointer transition-all duration-300 ease-bounce hover:-translate-y-0.5 active:scale-90 ${studyQuizList ? 'border-emerald-500 bg-emerald-50 shadow-md scale-[1.02]' : 'border-slate-200 bg-white hover:bg-slate-50 hover:shadow-sm'}`}>
                   <input
                     type="checkbox"
                     className="sr-only"
@@ -1144,7 +1144,7 @@ export default function App() {
                     <p className="font-bold text-slate-800">Quiz List</p>
                     <p className="text-xs text-slate-500 font-medium">From the Quiz List provided by Prof. Snyder</p>
                   </div>
-                  {studyQuizList && <span className="absolute right-3 top-2 text-[10px] font-extrabold uppercase tracking-wider text-slate-500 whitespace-nowrap">Selected</span>}
+                  {studyQuizList && <span className="absolute right-3 top-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-500">Selected</span>}
                 </label>
              </div>
 
