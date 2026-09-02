@@ -659,6 +659,7 @@ title: "第十一课 Lesson 11 Pt. 1",
       ],
     quizList: [
       { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" }
+      ],
       },
 "12":{
     title: "Lesson 20 Pt.2 ",
@@ -668,6 +669,7 @@ title: "第十一课 Lesson 11 Pt. 1",
       ],
     quizList: [
       { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" }
+      ],
       },
 };
 
