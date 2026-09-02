@@ -651,6 +651,24 @@ title: "第十一课 Lesson 11 Pt. 1",
       { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" }
     ], 
   },
+"11":{
+    title: "Lesson 10 Pt.2 ",
+    subtitle: "Test)",
+    vocab: [
+      { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" }
+      ],
+    quizList: [
+      { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" }
+      },
+"12":{
+    title: "Lesson 20 Pt.2 ",
+    subtitle: "test 2",
+    vocab: [
+      { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" }
+      ],
+    quizList: [
+      { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" }
+      },
 };
 
 // --- Standard Audio Helper ---
