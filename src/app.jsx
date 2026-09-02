@@ -1082,7 +1082,7 @@ export default function App() {
                   <label
                     key={unitKey}
                     style={getUnitCardStyle(unitKey, isSelected)}
-                    className={`relative flex items-center p-4 border-2 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${
+                    className={`relative flex items-start p-4 pr-16 border-2 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${
                       isSelected
                         ? 'shadow-md'
                         : 'border-slate-200 bg-white hover:bg-slate-50 hover:shadow-sm'
@@ -1094,14 +1094,14 @@ export default function App() {
                       checked={isSelected}
                       onChange={() => toggleUnit(unitKey)}
                     />
-                    <span className={`mr-3 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${isSelected ? 'border-current bg-white text-current' : 'border-slate-300 bg-white text-transparent'}`}>
+                    <span className={`mr-3 mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${isSelected ? 'border-current bg-white text-current' : 'border-slate-300 bg-white text-transparent'}`}>
                       <CheckCircle2 size={16} strokeWidth={3} />
                     </span>
                     <div>
-                      <p className="font-bold text-slate-800">{data.title}</p>
+                      <p className="font-bold text-slate-800 leading-snug">{data.title}</p>
                       <p className="text-xs text-slate-500 font-medium">{data.subtitle}</p>
                     </div>
-                    {isSelected && <span className="absolute right-3 top-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-500">Selected</span>}
+                    {isSelected && <span className="absolute right-3 top-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-500 whitespace-nowrap">Selected</span>}
                   </label>
                 );
               })}
@@ -1114,7 +1114,7 @@ export default function App() {
                <p className="text-sm text-slate-500"></p>
              </div>
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <label className={`relative group flex items-start p-5 border-2 rounded-2xl cursor-pointer transition-all duration-300 ease-bounce hover:-translate-y-0.5 active:scale-90 ${studyVocabulary ? 'border-indigo-500 bg-indigo-50 shadow-md scale-[1.02]' : 'border-slate-200 bg-white hover:bg-slate-50 hover:shadow-sm'}`}>
+                <label className={`relative group flex items-start p-5 pr-16 border-2 rounded-2xl cursor-pointer transition-all duration-300 ease-bounce hover:-translate-y-0.5 active:scale-90 ${studyVocabulary ? 'border-indigo-500 bg-indigo-50 shadow-md scale-[1.02]' : 'border-slate-200 bg-white hover:bg-slate-50 hover:shadow-sm'}`}>
                   <input
                     type="checkbox"
                     className="sr-only"
@@ -1130,7 +1130,7 @@ export default function App() {
                   </div>
                   {studyVocabulary && <span className="absolute right-3 top-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-500">Selected</span>}
                 </label>
-                <label className={`relative group flex items-start p-5 border-2 rounded-2xl cursor-pointer transition-all duration-300 ease-bounce hover:-translate-y-0.5 active:scale-90 ${studyQuizList ? 'border-emerald-500 bg-emerald-50 shadow-md scale-[1.02]' : 'border-slate-200 bg-white hover:bg-slate-50 hover:shadow-sm'}`}>
+                <label className={`relative group flex items-start p-5 pr-16 border-2 rounded-2xl cursor-pointer transition-all duration-300 ease-bounce hover:-translate-y-0.5 active:scale-90 ${studyQuizList ? 'border-emerald-500 bg-emerald-50 shadow-md scale-[1.02]' : 'border-slate-200 bg-white hover:bg-slate-50 hover:shadow-sm'}`}>
                   <input
                     type="checkbox"
                     className="sr-only"
@@ -1548,11 +1548,16 @@ export default function App() {
                       )}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {sec.words.map((w, i) => (
-                          <div key={i} className="flex flex-col p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                            <span className="font-bold text-slate-800">
-                              {w.word} <span className="text-xs font-medium text-slate-400">({w.pinyin})</span>
+                          <div key={i} className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                            <span className="mt-0.5 shrink-0 w-5 h-5 flex items-center justify-center rounded-full bg-white border border-slate-200 text-[10px] font-bold text-slate-400">
+                              {i + 1}
                             </span>
-                            <span className="text-xs text-slate-500">{w.meaning}</span>
+                            <div className="flex flex-col min-w-0">
+                              <span className="font-bold text-slate-800">
+                                {w.word} <span className="text-xs font-medium text-slate-400">({w.pinyin})</span>
+                              </span>
+                              <span className="text-xs text-slate-500">{w.meaning}</span>
+                            </div>
                           </div>
                         ))}
                       </div>
