@@ -768,6 +768,10 @@ export default function App() {
   const [quizAudioEnabled, setQuizAudioEnabled] = useState(false);
   const [showPinyinInStrokeQuiz, setShowPinyinInStrokeQuiz] = useState(false);
   const [showPinyinInReverseQuiz, setShowPinyinInReverseQuiz] = useState(false);
+  const [flashcardHanziFirst, setFlashcardHanziFirst] = useState(true);
+
+  // Word list preview modal
+  const [showWordList, setShowWordList] = useState(false);
 
   // Flashcard State
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -851,6 +855,109 @@ export default function App() {
     );
   };
 
+  const allUnitKeys = Object.keys(masterQuizList);
+
+  const selectAllUnits = () => setSelectedUnits(allUnitKeys);
+  const clearAllUnits = () => setSelectedUnits([]);
+
+  // Curated palette for the first 10 units (matches the original design intent).
+  // Beyond that, colors are generated on the fly using the golden-angle
+  // technique so every additional unit still gets its own distinct hue —
+  // this never repeats no matter how many units are added.
+  const curatedUnitColors = [
+    '#ef4444', // red
+    '#f97316', // orange
+    '#f59e0b', // amber
+    '#eab308', // yellow
+    '#84cc16', // lime
+    '#22c55e', // green
+    '#14b8a6', // teal
+    '#06b6d4', // cyan
+    '#3b82f6', // blue
+    '#8b5cf6', // violet
+  ];
+
+  const hslToHex = (h, s, l) => {
+    s /= 100; l /= 100;
+    const k = n => (n + h / 30) % 12;
+    const a = s * Math.min(l, 1 - l);
+    const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+    const toHex = x => Math.round(255 * x).toString(16).padStart(2, '0');
+    return `#${toHex(f(0))}${toHex(f(8))}${toHex(f(4))}`;
+  };
+
+  // Generates a color for any index. Uses the curated palette while it
+  // lasts, then falls back to golden-angle hue rotation (~137.5°) which
+  // guarantees maximally spread-out, non-repeating hues indefinitely.
+  const getColorForIndex = (idx) => {
+    if (idx < curatedUnitColors.length) return curatedUnitColors[idx];
+    const hue = (idx * 137.508) % 360;
+    return hslToHex(hue, 68, 52);
+  };
+
+  const hexToRgba = (hex, alpha) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  };
+
+  const getUnitColor = (unitKey) => {
+    const idx = allUnitKeys.indexOf(unitKey);
+    return getColorForIndex(idx);
+  };
+
+  // Builds a dynamic background (solid tint or blended gradient) + border
+  // color for the mobile unit-selection summary bar based on which
+  // unit(s) are currently selected.
+  const getSelectedUnitsStyle = () => {
+    if (selectedUnits.length === 0) return {};
+    const colors = selectedUnits.map(getUnitColor);
+    if (colors.length === 1) {
+      return {
+        background: hexToRgba(colors[0], 0.14),
+        borderColor: colors[0],
+      };
+    }
+    const stops = colors
+      .map((c, i) => `${hexToRgba(c, 0.28)} ${(i / (colors.length - 1)) * 100}%`)
+      .join(', ');
+    return {
+      background: `linear-gradient(90deg, ${stops})`,
+      borderColor: colors[0],
+    };
+  };
+
+  // Inline style (border/bg/shadow tint) for a unit selection card, used
+  // instead of a fixed Tailwind class list so it scales to any number of units.
+  const getUnitCardStyle = (unitKey, isSelected) => {
+    if (!isSelected) return {};
+    const color = getUnitColor(unitKey);
+    return {
+      borderColor: color,
+      backgroundColor: hexToRgba(color, 0.08),
+      boxShadow: `0 4px 14px 0 ${hexToRgba(color, 0.25)}`,
+      color,
+    };
+  };
+
+
+  // Groups the currently selected units' words into labeled sections
+  // (Vocabulary / Quiz List) for the "preview words" list view.
+  const getSectionedWordList = () => {
+    return selectedUnits
+      .map(unit => {
+        const data = masterQuizList[unit];
+        if (!data) return null;
+        const sections = [];
+        if (studyVocabulary && data.vocab) sections.push({ label: 'Vocabulary', words: data.vocab });
+        if (studyQuizList && data.quizList) sections.push({ label: 'Quiz List', words: data.quizList });
+        if (sections.length === 0) return null;
+        return { unit, title: data.title, subtitle: data.subtitle, sections };
+      })
+      .filter(Boolean);
+  };
+
   const nextCard = useCallback(() => {
     setIsFlipped(false);
     setTimeout(() => setCurrentIndex((prev) => (prev + 1) % currentDeck.length), 150);
@@ -915,19 +1022,6 @@ export default function App() {
 
   // --- Render Functions ---
   const renderMenu = () => {
-    const unitThemes = [
-      'border-red-500 bg-red-50 shadow-red-200/70',
-      'border-orange-500 bg-orange-50 shadow-orange-200/70',
-      'border-amber-500 bg-amber-50 shadow-amber-200/70',
-      'border-yellow-500 bg-yellow-50 shadow-yellow-200/70',
-      'border-lime-500 bg-lime-50 shadow-lime-200/70',
-      'border-green-500 bg-green-50 shadow-green-200/70',
-      'border-teal-500 bg-teal-50 shadow-teal-200/70',
-      'border-cyan-500 bg-cyan-50 shadow-cyan-200/70',
-      'border-blue-500 bg-blue-50 shadow-blue-200/70',
-      'border-violet-500 bg-violet-50 shadow-violet-200/70',
-    ];
-
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center w-full relative">
         <div className="bg-white p-8 md:p-10 rounded-3xl shadow-2xl ring-1 ring-slate-900/5 max-w-4xl w-full border-t-4 border-indigo-500">
@@ -940,15 +1034,35 @@ export default function App() {
           </div>
 
           <div className="mb-6">
-            <h3 className="font-bold text-slate-700 mb-4 uppercase tracking-wider text-sm">1. Select Unit(s)</h3>
+            <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
+              <h3 className="font-bold text-slate-700 uppercase tracking-wider text-sm">1. Select Unit(s)</h3>
+              <div className="flex items-center gap-2 text-xs font-bold">
+                <button
+                  type="button"
+                  onClick={selectAllUnits}
+                  className="text-indigo-600 hover:text-indigo-800 hover:underline transition-colors"
+                >
+                  Select All
+                </button>
+                <span className="text-slate-300">|</span>
+                <button
+                  type="button"
+                  onClick={clearAllUnits}
+                  className="text-slate-500 hover:text-slate-700 hover:underline transition-colors"
+                >
+                  Clear All
+                </button>
+              </div>
+            </div>
 
             {/* Mobile-only collapsible summary bar */}
             <button
               type="button"
               onClick={() => setUnitsExpanded(!unitsExpanded)}
-              className="sm:hidden w-full flex items-center justify-between p-4 border-2 border-slate-200 rounded-2xl bg-white mb-3 transition-all duration-300 ease-bounce active:scale-95"
+              style={getSelectedUnitsStyle()}
+              className={`sm:hidden w-full flex items-start justify-between gap-3 p-4 border-2 rounded-2xl mb-3 transition-all duration-300 ease-bounce active:scale-95 ${selectedUnits.length === 0 ? 'border-slate-200 bg-white' : ''}`}
             >
-              <span className="text-sm font-bold text-slate-700 text-left">
+              <span className="text-sm font-bold text-slate-700 text-left whitespace-normal break-words leading-snug">
                 {selectedUnits.length === 0
                   ? 'Select unit(s)'
                   : selectedUnits.length <= 2
@@ -958,7 +1072,7 @@ export default function App() {
                         .join(', ')
                     : `${selectedUnits.length} lessons selected`}
               </span>
-              <ChevronDown size={20} className={`text-slate-400 shrink-0 ml-2 transition-transform duration-300 ${unitsExpanded ? 'rotate-180' : ''}`} />
+              <ChevronDown size={20} className={`text-slate-400 shrink-0 mt-0.5 transition-transform duration-300 ${unitsExpanded ? 'rotate-180' : ''}`} />
             </button>
 
             <div className={`unit-scroll ${unitsExpanded ? 'grid' : 'hidden'} sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-left max-h-72 sm:max-h-none overflow-y-auto sm:overflow-visible pr-1 sm:pr-0`}>
@@ -967,9 +1081,10 @@ export default function App() {
                 return (
                   <label
                     key={unitKey}
+                    style={getUnitCardStyle(unitKey, isSelected)}
                     className={`relative flex items-center p-4 border-2 rounded-2xl cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${
                       isSelected
-                        ? `${unitThemes[index % unitThemes.length]} shadow-md`
+                        ? 'shadow-md'
                         : 'border-slate-200 bg-white hover:bg-slate-50 hover:shadow-sm'
                     }`}
                   >
@@ -979,7 +1094,7 @@ export default function App() {
                       checked={isSelected}
                       onChange={() => toggleUnit(unitKey)}
                     />
-                    <span className={`mr-3 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${isSelected ? 'border-current bg-white text-slate-700' : 'border-slate-300 bg-white text-transparent'}`}>
+                    <span className={`mr-3 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${isSelected ? 'border-current bg-white text-current' : 'border-slate-300 bg-white text-transparent'}`}>
                       <CheckCircle2 size={16} strokeWidth={3} />
                     </span>
                     <div>
@@ -1032,6 +1147,17 @@ export default function App() {
                   {studyQuizList && <span className="absolute right-3 top-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-500">Selected</span>}
                 </label>
              </div>
+
+             <div className="mt-3 flex justify-end">
+               <button
+                 type="button"
+                 onClick={() => setShowWordList(true)}
+                 disabled={selectedUnits.length === 0 || (!studyVocabulary && !studyQuizList)}
+                 className="text-xs font-bold text-indigo-600 hover:text-indigo-800 hover:underline transition-colors disabled:text-slate-300 disabled:hover:no-underline disabled:cursor-not-allowed"
+               >
+                 Preview selected words →
+               </button>
+             </div>
           </div>
 
           {/* Settings Area */}
@@ -1054,6 +1180,11 @@ export default function App() {
                 <input type="checkbox" className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 mr-3 border-slate-300"
                   checked={showPinyinInReverseQuiz} onChange={(e) => setShowPinyinInReverseQuiz(e.target.checked)} />
                 <span className="text-sm font-medium text-slate-600 group-hover:text-slate-900 transition-colors">Show Pinyin Options in Reverse Quiz</span>
+              </label>
+              <label className="flex items-center cursor-pointer group">
+                <input type="checkbox" className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 mr-3 border-slate-300"
+                  checked={!flashcardHanziFirst} onChange={(e) => setFlashcardHanziFirst(!e.target.checked)} />
+                <span className="text-sm font-medium text-slate-600 group-hover:text-slate-900 transition-colors">Flashcards: show Pinyin & Meaning first (flip for Hanzi)</span>
               </label>
             </div>
 
@@ -1102,11 +1233,21 @@ export default function App() {
             className={`relative w-full transition-transform duration-500 preserve-3d shadow-xl rounded-2xl min-h-[400px] cursor-pointer ${isFlipped ? 'rotate-y-180' : ''}`}
           >
             {/* Front of Card */}
-            <div className="absolute inset-0 backface-hidden bg-white rounded-2xl flex flex-col items-center justify-center p-8 border border-slate-100">
+            <div className="absolute inset-0 backface-hidden bg-white rounded-2xl flex flex-col items-center justify-center p-8 border border-slate-100 text-center">
               <button onClick={(e) => playBrowserAudio(currentCard.word, e)} className="absolute top-4 right-4 p-3 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 rounded-full transition-colors z-10">
                 <Volume2 size={24} />
               </button>
-              <StrokeOrderAnimator word={currentCard.word} />
+              {flashcardHanziFirst ? (
+                <StrokeOrderAnimator word={currentCard.word} />
+              ) : (
+                <>
+                  <span className="text-sm font-bold text-indigo-500 uppercase tracking-wider block mb-2">Pinyin</span>
+                  <h2 className="text-5xl font-bold text-slate-800 mb-6">{currentCard.pinyin}</h2>
+                  <div className="w-16 h-1 bg-indigo-100 rounded-full mb-6"></div>
+                  <span className="text-sm font-bold text-indigo-500 uppercase tracking-wider block mb-2">Meaning</span>
+                  <p className="text-3xl text-slate-600 font-medium leading-tight">{currentCard.meaning}</p>
+                </>
+              )}
               <p className="absolute bottom-6 text-sm text-slate-400 font-medium tracking-widest uppercase">Click to flip</p>
             </div>
 
@@ -1115,11 +1256,17 @@ export default function App() {
                <button onClick={(e) => playBrowserAudio(currentCard.word, e)} className="absolute top-4 right-4 p-3 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 rounded-full transition-colors z-10">
                  <Volume2 size={24} />
                </button>
-               <span className="text-sm font-bold text-indigo-500 uppercase tracking-wider block mb-2">Pinyin</span>
-               <h2 className="text-5xl font-bold text-slate-800 mb-6">{currentCard.pinyin}</h2>
-               <div className="w-16 h-1 bg-indigo-100 rounded-full mb-6"></div>
-               <span className="text-sm font-bold text-indigo-500 uppercase tracking-wider block mb-2">Meaning</span>
-               <p className="text-3xl text-slate-600 font-medium leading-tight">{currentCard.meaning}</p>
+               {flashcardHanziFirst ? (
+                 <>
+                   <span className="text-sm font-bold text-indigo-500 uppercase tracking-wider block mb-2">Pinyin</span>
+                   <h2 className="text-5xl font-bold text-slate-800 mb-6">{currentCard.pinyin}</h2>
+                   <div className="w-16 h-1 bg-indigo-100 rounded-full mb-6"></div>
+                   <span className="text-sm font-bold text-indigo-500 uppercase tracking-wider block mb-2">Meaning</span>
+                   <p className="text-3xl text-slate-600 font-medium leading-tight">{currentCard.meaning}</p>
+                 </>
+               ) : (
+                 <StrokeOrderAnimator word={currentCard.word} />
+               )}
             </div>
           </div>
         </div>
@@ -1358,6 +1505,65 @@ export default function App() {
         {appMode === 'study' && renderStudyMode()}
         {(appMode === 'quiz' || appMode === 'reverse_quiz' || appMode === 'hanzi_quiz') && renderQuizMode()}
       </div>
+
+      {/* Word List Preview Modal */}
+      {showWordList && (
+        <div
+          className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4"
+          onClick={() => setShowWordList(false)}
+        >
+          <div
+            className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[85vh] overflow-hidden flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between p-5 border-b border-slate-200 shrink-0">
+              <div>
+                <h3 className="font-extrabold text-lg text-slate-800">Selected Words</h3>
+                <p className="text-xs text-slate-500 font-medium">{buildDeck().length} words across {selectedUnits.length} lesson{selectedUnits.length !== 1 ? 's' : ''}</p>
+              </div>
+              <button
+                onClick={() => setShowWordList(false)}
+                className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full transition-colors"
+              >
+                <XCircle size={22} />
+              </button>
+            </div>
+            <div className="overflow-y-auto p-5 space-y-6 unit-scroll">
+              {getSectionedWordList().length === 0 && (
+                <p className="text-slate-400 text-sm text-center py-8">Select unit(s) and study material to preview words.</p>
+              )}
+              {getSectionedWordList().map(({ unit, title, subtitle, sections }) => (
+                <div key={unit}>
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: getUnitColor(unit) }}></span>
+                    <div>
+                      <p className="font-bold text-slate-800 leading-tight">{title}</p>
+                      <p className="text-xs text-slate-500 font-medium">{subtitle}</p>
+                    </div>
+                  </div>
+                  {sections.map(sec => (
+                    <div key={sec.label} className="mb-4 last:mb-0">
+                      {sections.length > 1 && (
+                        <p className="text-[10px] font-extrabold uppercase tracking-wider text-indigo-500 mb-2 pl-1">{sec.label}</p>
+                      )}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {sec.words.map((w, i) => (
+                          <div key={i} className="flex flex-col p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                            <span className="font-bold text-slate-800">
+                              {w.word} <span className="text-xs font-medium text-slate-400">({w.pinyin})</span>
+                            </span>
+                            <span className="text-xs text-slate-500">{w.meaning}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <style dangerouslySetInnerHTML={{__html: `
         .perspective-1000 { perspective: 1000px; }
