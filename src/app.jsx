@@ -235,7 +235,7 @@ title: "第十一课 Lesson 11 Pt. 1",
       { word: "道理", pinyin: "dào lǐ", meaning: "reason" },
       { word: "从来", pinyin: "cóng lái", meaning: "ever" },
       { word: "平时", pinyin: "píng shí", meaning: "usually" },
-      { word: "没事", pinyin: "méi shì", meaning: "it doesn't matter; free; fine" },
+      { word: "美式", pinyin: "měi shì", meaning: "American style / Americano" },
       { word: "快餐", pinyin: "kuài cān", meaning: "fast food" },
       { word: "看来", pinyin: "kàn lai", meaning: "it seems; it looks; it appears" },
       { word: "既…又…", pinyin: "jì… yòu…", meaning: "both…and…" }
