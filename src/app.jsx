@@ -433,35 +433,101 @@ title: "第十一课 Lesson 11 Pt. 1",
     ], 
   },
 "11":{
-    title: "Lesson 10 Pt.2 ",
-    subtitle: "Test)",
+    title: "第六课 Lesson 6 Pt.1 ",
+    subtitle: "约会 (Dating)",
     vocab: [
-      { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" }
+      { word: "心事", pinyin: "xīnshì", meaning: "something that weighs on one's mind" },
+      { word: "吵架", pinyin: "chǎo jià", meaning: "to quarrel" },
+      { word: "高中", pinyin: "gāozhōng", meaning: "senior high school" },
+      { word: "开朗", pinyin: "kāilǎng", meaning: "extroverted, open and sunny in disposition" },
+      { word: "迷", pinyin: "mí", meaning: "fan; to be infatuated with" },
+      { word: "演唱会", pinyin: "yǎnchànghuì", meaning: "vocal concert" },
+      { word: "爱好", pinyin: "àihào", meaning: "hobby, interest; to love (something)" },
+      { word: "不同", pinyin: "bù tóng", meaning: "different, not the same" },
+      { word: "相处", pinyin: "xiāngchǔ", meaning: "to get along" },
+      { word: "到底", pinyin: "dàodǐ", meaning: "what on earth, what in the world, in the end" },
+      { word: "发生", pinyin: "fāshēng", meaning: "to happen, to occur, to take place" },
+      { word: "背景", pinyin: "bèijǐng", meaning: "background" },
+      { word: "提", pinyin: "tí", meaning: "to mention, to bring up" },
+      { word: "心", pinyin: "xīn", meaning: "heart, mind" },
+      { word: "根本", pinyin: "gēnběn", meaning: "at all, simply" }
       ],
     quizList: [
-      { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" }
+      { word: "心事", pinyin: "xīnshì", meaning: "something that weighs on one's mind" },
+      { word: "吵架", pinyin: "chǎo jià", meaning: "to quarrel" },
+      { word: "高中", pinyin: "gāozhōng", meaning: "senior high school" },
+      { word: "开朗", pinyin: "kāilǎng", meaning: "extroverted, open and sunny in disposition" },
+      { word: "迷", pinyin: "mí", meaning: "fan; to be infatuated with" },
+      { word: "演唱会", pinyin: "yǎnchànghuì", meaning: "vocal concert" },
+      { word: "爱好", pinyin: "àihào", meaning: "hobby, interest; to love (something)" },
+      { word: "不同", pinyin: "bù tóng", meaning: "different, not the same" },
+      { word: "相处", pinyin: "xiāngchǔ", meaning: "to get along" },
+      { word: "到底", pinyin: "dàodǐ", meaning: "what on earth, what in the world, in the end" },
+      { word: "发生", pinyin: "fāshēng", meaning: "to happen, to occur, to take place" },
+      { word: "背景", pinyin: "bèijǐng", meaning: "background" },
+      { word: "提", pinyin: "tí", meaning: "to mention, to bring up" },
+      { word: "心", pinyin: "xīn", meaning: "heart, mind" },
+      { word: "根本", pinyin: "gēnběn", meaning: "at all, simply" }
       ],
-      },
+    },
 "12":{
-    title: "Lesson 20 Pt.2 ",
-    subtitle: "test 2",
+    title: "第六课 Lesson 6 Pt.2 ",
+    subtitle: "约会 (Dating)",
     vocab: [
-      { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" }
+      { word: "生气", pinyin: "shēng qì", meaning: "to get angry" },
+      { word: "叫", pinyin: "jiào", meaning: "to make (someone do something)" },
+      { word: "陪", pinyin: "péi", meaning: "to accompany" },
+      { word: "答应", pinyin: "dāying", meaning: "to agree (to do something), to promise, to answer" },
+      { word: "电影院", pinyin: "diànyǐngyuàn", meaning: "movie theater" },
+      { word: "钥匙", pinyin: "yàoshi", meaning: "key" },
+      { word: "交朋友", pinyin: "jiāo péngyou", meaning: "to make friends" },
+      { word: "分手", pinyin: "fēn shǒu", meaning: "to break up, to part company" },
+      { word: "原来", pinyin: "yuánlái", meaning: "as a matter of fact; original, former" },
+      { word: "马虎", pinyin: "mǎhu", meaning: "careless, perfunctory, mediocre" },
+      { word: "不停", pinyin: "bùtíng", meaning: "continuously, incessantly" },
+      { word: "道歉", pinyin: "dào qiàn", meaning: "to apologize" },
+      { word: "态度", pinyin: "tàidu", meaning: "attitude" },
+      { word: "说不定", pinyin: "shuōbudìng", meaning: "perhaps, maybe" },
+      { word: "实际上", pinyin: "shíjìshang", meaning: "in fact, in reality, actually" }
       ],
     quizList: [
-      { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" }
+      { word: "生气", pinyin: "shēng qì", meaning: "to get angry" },
+      { word: "叫", pinyin: "jiào", meaning: "to make (someone do something)" },
+      { word: "陪", pinyin: "péi", meaning: "to accompany" },
+      { word: "答应", pinyin: "dāying", meaning: "to agree (to do something), to promise, to answer" },
+      { word: "电影院", pinyin: "diànyǐngyuàn", meaning: "movie theater" },
+      { word: "钥匙", pinyin: "yàoshi", meaning: "key" },
+      { word: "交朋友", pinyin: "jiāo péngyou", meaning: "to make friends" },
+      { word: "分手", pinyin: "fēn shǒu", meaning: "to break up, to part company" },
+      { word: "原来", pinyin: "yuánlái", meaning: "as a matter of fact; original, former" },
+      { word: "马虎", pinyin: "mǎhu", meaning: "careless, perfunctory, mediocre" },
+      { word: "不停", pinyin: "bùtíng", meaning: "continuously, incessantly" },
+      { word: "道歉", pinyin: "dào qiàn", meaning: "to apologize" },
+      { word: "态度", pinyin: "tàidu", meaning: "attitude" },
+      { word: "说不定", pinyin: "shuōbudìng", meaning: "perhaps, maybe" },
+      { word: "实际上", pinyin: "shíjìshang", meaning: "in fact, in reality, actually" }
       ],
-      },
+    },
 "13":{
-    title: "Lesson 30 Pt.2 ",
-    subtitle: "test 3",
+    title: "第七课 Lesson 7 Pt.1 ",
+    subtitle: "电脑和网络 (Computers And The Internet)",
     vocab: [
       { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" }
-      ],
+    ],
     quizList: [
       { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" }
       ],
-      },
+     },
+"14":{
+    title: "第七课 Lesson 7 Pt.2 ",
+    subtitle: "电脑和网络 (Computers And The Internet)",
+    vocab: [
+      { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" }
+    ],
+    quizList: [
+      { word: "互联网", pinyin: "hù lián wǎng", meaning: "internet" }
+      ],
+     },
 };
 
 // --- Standard Audio Helper ---
